@@ -1,7 +1,8 @@
-package Tests;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.*;
+import org.junit.Test;
+
 
 
 public class Item_Test
@@ -46,16 +47,22 @@ public class Item_Test
 	@Test	// Try test if reorder point correct.
 	public void TestReorderPoint()
 	{
-		assertEquals(20, item.GetReorderPoint(),0);
+		assertEquals(20, (int)item.GetReorderPoint());
 	}
 
 	@Test	// test if reorder amount correct.
 	public void TestReorderAmount()
 	{
-		assertEquals(30, item.GetReorderAmount(),0);
+		assertEquals(30, (int)item.GetReorderAmount());
 	}
 
-
+	@Test
+	public void TestGetQuantity()
+	{
+		assertEquals(20, (int)item.getQuantity());
+	}
+	
+	@Test
 	public void TestTempreatureCooled()
 	{
 		assertEquals(54.67, item.GetTemperature(),0);
