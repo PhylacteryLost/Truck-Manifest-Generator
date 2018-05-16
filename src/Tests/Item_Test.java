@@ -1,20 +1,24 @@
+package Tests;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.*;
 import org.junit.Test;
 
+import Stock.Item;
+import Stock.RefrigeratedItem;
+
 
 
 public class Item_Test
 {
-	private RefrigeratedItem item;
-	private Item item_uncooled;
+	private RefrigeratedItem itemCooled;
+	private Item item;
 
 	@Before	// Build test constructors.
 	public void TestConstructorCooled()
 	{
-		item = new RefrigeratedItem("test_item", 35.00, 40.00, 20, 30, 54.67);
-		item_uncooled = new Item("test_item_uncooled", 35.00, 40.00, 20, 30);
+		itemCooled = new RefrigeratedItem("test_item", 35.00, 40.00, 20, 30, 54.67);
+		item = new Item("test_item_uncooled", 35.00, 40.00, 20, 30);
 	}
 
 
@@ -23,48 +27,48 @@ public class Item_Test
 	@Test	// Try test if item name correct.
 	public void TestItemNameCooled()
 	{
-		assertEquals("test_item", item.GetName());
+		assertEquals("test_item", itemCooled.GetName());
 	}
 
 	@Test
 	public void TestItemNameUncooled()
 	{
-		assertEquals("test_item_uncooled", item_uncooled.GetName());
+		assertEquals("test_item_uncooled", item.GetName());
 	}
 
 	@Test	// Try test if manufacture price correct.
 	public void TestManufacturePrice()
 	{
-		assertEquals(35.00, item.GetManufacturePrice(),0);
+		assertEquals(35.00, itemCooled.GetManufacturePrice(),0);
 	}
 
 	@Test	// Try test if sell price is correct.
 	public void TestSellPrice()
 	{
-		assertEquals(40.00, item.GetSellPrice(),0);
+		assertEquals(40.00, itemCooled.GetSellPrice(),0);
 	}
 
 	@Test	// Try test if reorder point correct.
 	public void TestReorderPoint()
 	{
-		assertEquals(20, (int)item.GetReorderPoint());
+		assertEquals(20, (int)itemCooled.GetReorderPoint());
 	}
 
 	@Test	// test if reorder amount correct.
 	public void TestReorderAmount()
 	{
-		assertEquals(30, (int)item.GetReorderAmount());
+		assertEquals(30, (int)itemCooled.GetReorderAmount());
 	}
 
 	@Test
 	public void TestGetQuantity()
 	{
-		assertEquals(20, (int)item.getQuantity());
+		assertEquals(20, (int)itemCooled.getQuantity());
 	}
 	
 	@Test
 	public void TestTempreatureCooled()
 	{
-		assertEquals(54.67, item.GetTemperature(),0);
+		assertEquals(54.67, itemCooled.GetTemperature(),0);
 	}
 }

@@ -1,3 +1,4 @@
+package Tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -5,6 +6,10 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import Stock.Item;
+import Stock.RefrigeratedItem;
+import Stock.Stock;
 
 public class Stock_Test 
 {
