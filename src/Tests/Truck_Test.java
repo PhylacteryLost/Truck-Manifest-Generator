@@ -1,11 +1,29 @@
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
 import org.junit.Test;
 
+import Stock.Item;
+import Stock.OrdinaryTruck;
+import Stock.Stock;
+
+
 public class Truck_Test {
+	Stock cargo = new Stock();
+	Truck truck = new OrdinaryTruck(cargo);
+	
 	
 	@Test
-	public void TestGetTruckCost() throws Exception
+	public void TestAddCargo() 
+	{	
+		Item i = new Item("i",0,0,0,0);
+		truck.AddCargo(i);
+		assertEquals(truck.getCargo().getItem(0), i);		
+	}
+	
+	@Test
+	public void TestGetCargo()
 	{
-		// I still need to figure out how to test abstract classes.
-		
+		assertEquals(truck.getCargo(), cargo);
 	}
 }
