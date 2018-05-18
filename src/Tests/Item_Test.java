@@ -11,13 +11,13 @@ import Stock.RefrigeratedItem;
 
 public class Item_Test
 {
-	private RefrigeratedItem itemCooled;
+	private Item itemCooled;
 	private Item item;
 
 	@Before	// Build test constructors.
 	public void TestConstructorCooled()
 	{
-		itemCooled = new RefrigeratedItem("test_item", 35.00, 40.00, 20, 30, 54.67);
+		itemCooled = new Item("test_item", 35.00, 40.00, 20, 30, 54.67);
 		item = new Item("test_item_uncooled", 35.00, 40.00, 20, 30);
 	}
 

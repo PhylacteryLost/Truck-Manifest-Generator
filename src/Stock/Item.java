@@ -8,6 +8,8 @@ public class Item {
 	private int restockPoint;
 	private int reorderAmount;
 	private int quantity;
+	private Double temp;
+
 
 
 	/*
@@ -29,7 +31,20 @@ public class Item {
 		restockPoint = reorderPoint;
 		this.reorderAmount = reorderAmount;
 		quantity = restockPoint;
+		temp = null;
 	}
+	
+	
+	public Item(String name, double sellPrice, double manfPrice, int reorderPoint, int reorderAmount, double temperature) {
+		itemName = name;
+		sellingPrice = sellPrice;
+		manfCost = manfPrice;
+		restockPoint = reorderPoint;
+		this.reorderAmount = reorderAmount;
+		quantity = restockPoint;
+		this.temp = temperature;
+	}
+
 	
 	/*
 	 * Simple method which returns the name of the item
@@ -70,7 +85,7 @@ public class Item {
 		// TODO Auto-generated method stub
 		return restockPoint;
 	}
-	
+	 
 	/* gets the re-order amount of the item
 	 * @Author Kyle Langton
 	 * @return returns the re-order amount of the item as an integer
@@ -89,4 +104,8 @@ public class Item {
 		return quantity;
 	}
 
+	public Double GetTemperature() {
+		// TODO Auto-generated method stub
+		return temp;
+	}
 }
