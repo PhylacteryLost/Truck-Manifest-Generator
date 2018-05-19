@@ -3,9 +3,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import Delivery.OrdinaryTruck;
 import Stock.Item;
-import Stock.OrdinaryTruck;
 import Stock.Stock;
+import Delivery.Truck;
 
 
 public class Truck_Test {
