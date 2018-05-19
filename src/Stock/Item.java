@@ -34,7 +34,21 @@ public class Item {
 		temp = null;
 	}
 	
-	
+	/*
+	 * Overides the constructor by allowing the creation of an item with a temperature
+	 * Creates an item using a string for the name, doubles to represent a selling price and manufacturing price, 
+	 * And integers to represent reorderpoints and reorderAmounts while adding the functionality for the item to store a 
+	 * temperature
+	 * 
+	 * 
+	 * @Author Kyle Langton
+	 * @param Doubles: sellprice , selling price of the item
+	 * @param double manfprice, price required to manufacture the item
+	 * @param integer reorderPoint, the re-order point for the item
+	 * @param integer reorderamount, the price of the reorder
+	 * @param double temperature, the temperature of the item
+	 * @return An Item with the above properties
+	 */
 	public Item(String name, double sellPrice, double manfPrice, int reorderPoint, int reorderAmount, double temperature) {
 		itemName = name;
 		sellingPrice = sellPrice;
@@ -103,7 +117,14 @@ public class Item {
 		// TODO Auto-generated method stub
 		return quantity;
 	}
-
+	
+	/*
+	 * Gets the temperature of the item as a Double, not to be confused with the 
+	 * primitive type double
+	 * 
+	 * @Author Kyle Langton
+	 * @return returns the temperature of the item
+	 */
 	public Double GetTemperature() {
 		// TODO Auto-generated method stub
 		return temp;
