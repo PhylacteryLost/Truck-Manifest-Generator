@@ -1,13 +1,19 @@
 package Tests;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.*;
+
+import Delivery.OrdinaryTruck;
+import Stock.Item;
+import Stock.Stock;
 
 public class Ordinary_Truck_Test {
 	
 	private OrdinaryTruck testTruck;
-	private Stock testStock;
+	private Stock testStock = new Stock();
 	
-	private Item beans = new Itemc("beans",4.0 , 6.0, 450.0, 52.0);
+	private Item beans = new Item("beans",4.0 , 6.0, 450, 52);
 	
 	@Before
 	public void setUp() {
@@ -20,7 +26,7 @@ public class Ordinary_Truck_Test {
 	@Test
 	public void testClass() {
 		testTruck = new OrdinaryTruck(testStock);
-		assertEquals(OrindaryTruck.class, testTruck.getClass());
+		assertEquals(OrdinaryTruck.class, testTruck.getClass());
 	}
 	
 	/* 
@@ -29,7 +35,7 @@ public class Ordinary_Truck_Test {
 	@Test
 	public void testCargoLimit() {
 		testTruck = new OrdinaryTruck(testStock);
-		assertEquals(1000, testTruck.getCargoLimit);
+		assertEquals(1000, testTruck.getCapacity());
 	}
 	
 	/*
@@ -48,6 +54,8 @@ public class Ordinary_Truck_Test {
 	@Test
 	public void testGetCargoSize() {
 		testTruck = new OrdinaryTruck(testStock);
+		testStock.addItem(beans);
+		assertEquals(1, testTruck.getCargoSize());
 	}
 	
 	/*
@@ -55,8 +63,8 @@ public class Ordinary_Truck_Test {
 	 */
 	@Test
 	public void testCost() {
-		testTruck = new OrindaryTruck(testStock);
-		assertEquals(862.5, testTruck.getTruckCost());
+		testTruck = new OrdinaryTruck(testStock);
+		assertEquals(862.5, testTruck.getCost(), 0 );
 	}
 	
 	
