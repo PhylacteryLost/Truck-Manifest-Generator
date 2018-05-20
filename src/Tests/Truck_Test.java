@@ -15,7 +15,6 @@ public class Truck_Test {
 	@Test
 	public void TestGetCargo()
 	{
-		System.out.print(truck.getClass().getClasses());
 		assertEquals(truck.getCargo(), cargo);
 	}
 }

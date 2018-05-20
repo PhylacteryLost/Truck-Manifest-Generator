@@ -2,6 +2,8 @@ package Stock;
 
 import java.util.ArrayList;
 
+import Delivery.Truck;
+
 public class Manifest {
 	private ArrayList<Truck> trucks = new ArrayList<Truck>();
 	
