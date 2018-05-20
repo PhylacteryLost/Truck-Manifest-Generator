@@ -5,8 +5,6 @@ import org.junit.*;
 import org.junit.Test;
 
 import Stock.Item;
-import Stock.RefrigeratedItem;
-
 
 
 public class Item_Test
@@ -39,13 +37,13 @@ public class Item_Test
 	@Test	// Try test if manufacture price correct.
 	public void TestManufacturePrice()
 	{
-		assertEquals(35.00, itemCooled.GetManufacturePrice(),0);
+		assertEquals(40.00, itemCooled.GetManufacturePrice(),0);
 	}
 
 	@Test	// Try test if sell price is correct.
 	public void TestSellPrice()
 	{
-		assertEquals(40.00, itemCooled.GetSellPrice(),0);
+		assertEquals(35.00, itemCooled.GetSellPrice(),0);
 	}
 
 	@Test	// Try test if reorder point correct.

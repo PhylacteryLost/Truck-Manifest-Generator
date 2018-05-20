@@ -1,14 +1,10 @@
 package Tests;
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import Stock.Item;
-import Stock.RefrigeratedItem;
 import Stock.Stock;
 
 public class Stock_Test 
@@ -16,7 +12,7 @@ public class Stock_Test
 	Stock inventory = new Stock();
 	
 	Item item_1, item_2;
-	RefrigeratedItem item_3;
+	Item item_3;
 	
 	@Before
 	public void TestAddItemsToInventory()
@@ -24,7 +20,7 @@ public class Stock_Test
 		// Create test items.
 		item_1 = new Item("warm rock", 1, 3, 100, 170);
 		item_2 = new Item("warm matt", 3, 1, 1300, 17000);
-		item_3 = new RefrigeratedItem("cold item", 3, 1, 1300, 17000, 12.0);
+		item_3 = new Item("cold item", 3, 1, 1300, 17000, 12.0);
 		
 		// Add items.
 		inventory.addItem(item_1);
