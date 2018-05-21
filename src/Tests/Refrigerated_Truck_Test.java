@@ -24,7 +24,7 @@ public class Refrigerated_Truck_Test {
 	 */
 	@Test
 	public void testClass() {
-		testTruck = new refrigeratedTruck(testStock);
+		testTruck = new RefrigeratedTruck(testStock);
 		assertEquals(RefrigeratedTruck.class,testTruck.getClass());
 	}
 	/**
@@ -32,7 +32,7 @@ public class Refrigerated_Truck_Test {
 	 */
 	@Test
 	public void testSetTemp() {
-		testTruck = new refrigeratedTruck(testStock);
+		testTruck = new RefrigeratedTruck(testStock);
 		assertEquals(3.0, testTruck.getTemperature());
 	}
 	

@@ -3,17 +3,14 @@ package Delivery;
 import Stock.Item;
 import Stock.Stock;
 
-public class refrigeratedTruck extends Truck {
+public class RefrigeratedTruck extends Truck {
 	
 	// Set maximum cargo capacity.
 	private final int cargoCapacity = 800;	
 	
 	// Create cargo array list for all items.
 	private Stock cargo = new Stock();
-	
-	// Create cargo array list for cold items.
-	Stock coldCargo = new Stock();
-	
+		
 	// Set default highest temperature.
 	private 	double temperature = 10;
 	
@@ -25,7 +22,7 @@ public class refrigeratedTruck extends Truck {
 	 * @author Clinton Hodge
 	 * 
 	 */
-	public refrigeratedTruck(Stock cargo) 
+	public RefrigeratedTruck(Stock cargo) 
 	{
 		super(cargo);
 		
@@ -42,10 +39,7 @@ public class refrigeratedTruck extends Truck {
 			// Assign cargo.
 			this.cargo = cargo;
 			this.setTemperature();
-		}
-		else
-		{
-		}
+		}		
 	}
 	
 	
@@ -56,26 +50,14 @@ public class refrigeratedTruck extends Truck {
 	 * 
 	 */
 	public void setTemperature()
-	{					
-		for(Item i: cargo.getStock())
-		{			
-			// Check if item is refrigerated.
-			if(i.getClass() == new RefrigeratedItem("",0,0,0,0,0).getClass())
-			{
-				// Add refrigerated items to cold cargo. 
-				coldCargo.addItem(i);			
-			}
-		}		
+	{		
 		// Iterate through all cold cargo.
-		for(Item i: coldCargo.getStock())
+		for(Item i: cargo.getStock())
 		{
 			// CHECK IF WORKS.
-			if(i.getClass() == new RefrigeratedItem("",0,0,0,0,0).getClass()) {
-				RefrigeratedItem x = (RefrigeratedItem) i;
-				if(x.GetTemperature() < temperature && x.GetTemperature() >= -20)
-				{
-					temperature = x.GetTemperature();
-				}
+			if(i.GetTemperature() != null && i.GetTemperature() < temperature && i.GetTemperature() >= -20) 
+			{		
+				temperature = i.GetTemperature();
 			}			
 		}
 	}	
@@ -84,7 +66,7 @@ public class refrigeratedTruck extends Truck {
 	public void UpdateCargo(Stock cargo)
 	{
 		if(cargo.getStock().size() <= cargoCapacity) {
-			this.coldCargo = cargo;
+			this.cargo = cargo;
 		}
 	}
 	
@@ -94,8 +76,7 @@ public class refrigeratedTruck extends Truck {
 	 *    
 	 * @author Clinton Hodge
 	 * 
-	 */
-	@Override
+	 */	
 	public double getTemperature()
 	{
 		// Return truck temperature.
