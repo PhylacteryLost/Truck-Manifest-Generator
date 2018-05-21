@@ -32,10 +32,7 @@ public class OrdinaryTruck extends Truck {
 		{
 			// Assign cargo.
 			this.cargo = cargo;
-		}
-		else
-		{
-		}		
+		}			
 	}
 	
 	/*
