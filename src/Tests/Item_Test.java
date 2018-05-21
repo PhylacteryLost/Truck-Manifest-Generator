@@ -18,10 +18,7 @@ public class Item_Test
 		itemCooled = new Item("test_item", 35.00, 40.00, 20, 30, 54.67);
 		item = new Item("test_item_uncooled", 35.00, 40.00, 20, 30);
 	}
-
-
-
-
+	
 	@Test	// Try test if item name correct.
 	public void TestItemNameCooled()
 	{
@@ -62,6 +59,13 @@ public class Item_Test
 	public void TestGetQuantity()
 	{
 		assertEquals(20, (int)itemCooled.getQuantity());
+	}
+	
+	@Test
+	public void TestSetItem()
+	{
+		itemCooled.setQuantity(32);
+		assertEquals(32, itemCooled.getQuantity());
 	}
 	
 	@Test
