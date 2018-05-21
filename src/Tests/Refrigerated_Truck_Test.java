@@ -2,11 +2,14 @@ package Tests;
 
 import org.junit.*;
 
+import Stock.Item;
+import Stock.Stock;
+
 public class Refrigerated_Truck_Test {
 	
 	private RefrigeratedTruck testTruck;
 	private Stock testStock = new Stock();
-	RefrigeratedItem beef = new RefrigeratedItem("beef",12.00,	17.00,	425.0,	550.0,	3.0);
+	private Item beef = new Item("beef",12.00,	17.00,	425,	550,	3.0);
 
 	/**
 	 * Sets up before the tests
@@ -14,8 +17,7 @@ public class Refrigerated_Truck_Test {
 	@Before
 	public void setUp() {
 		testTruck = null;
-		testStock.add(beans);
-		testStock.add(beef);
+		testStock.addItem(beef);
 	}
 	/**
 	 * Tests is the truck is refrigerated truck
