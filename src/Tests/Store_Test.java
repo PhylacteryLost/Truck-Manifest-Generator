@@ -1,18 +1,21 @@
 package Tests;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import Stock.Item;
+import Stock.Stock;
+import Stock.Store;
 
 public class Store_Test {
 	
 	private Store testStore;
-	private Stock testInventory;
+	private Stock testInventory = new Stock();
 	
-	Item rice = new Item("Rice", 2.0 , 3.0, 225.0, 300.0 );
-	Item beans = new Item("Beans", 4.0 , 6.0, 450.0, 525.0);
-	
-	testInventory.add(rice);
-	testInventory.add(beans);
+	Item rice = new Item("Rice", 2.0 , 3.0, 225, 300 );
+	Item beans = new Item("Beans", 4.0 , 6.0, 450, 525);
 	
 	/**
 	 * Sets the store to null before executing the tests
@@ -48,7 +51,7 @@ public class Store_Test {
 	@Test
 	public void testStoreCapital() {
 		testStore = Store.getStore();
-		assertEquals(100000.00, testStore.getCapital());
+		assertEquals(100000.00, testStore.getCapital(),0);
 	}
 	
 	/**
@@ -58,7 +61,7 @@ public class Store_Test {
 	public void testUpdatedCapital() {
 		testStore = Store.getStore();
 		testStore.setCapital(testStore.getCapital() - 100.00);
-		assertEquals(99900.00, testStore.getCapital());
+		assertEquals(99900.00, testStore.getCapital(), 0);
 	}
 	
 	/**
@@ -68,7 +71,7 @@ public class Store_Test {
 	public void testUpdatedDecimal() {
 		testStore = Store.getStore();
 		testStore.setCapital(testStore.getCapital() - 200.40);
-		assertEquals(99799.6, testStore.getCapital());	
+		assertEquals(99799.6, testStore.getCapital(), 0);	
 	}
 	
 	@Test
