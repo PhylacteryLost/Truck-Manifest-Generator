@@ -22,7 +22,7 @@ public class Store {
 	 * @author Clinton Hodge
 	 * 
 	 */
-	public static Store GetStore()
+	public static Store getStore()
 	{
 		return store;
 	}
@@ -33,7 +33,7 @@ public class Store {
 	 * @author Clinton Hodge
 	 * 
 	 */
-	public String GetName() 
+	public String getName() 
 	{
 		return storeName;		
 	}
@@ -55,7 +55,7 @@ public class Store {
 	 * @author Clinton Hodge
 	 * 
 	 */
-	public double GetCapital() 
+	public double getCapital() 
 	{		
 		return capital;
 	}
@@ -67,7 +67,7 @@ public class Store {
 	 * @author Clinton Hodge
 	 * 
 	 */
-	public void UpdateName(String newStoreName)
+	public void updateName(String newStoreName)
 	{
 		this.storeName = newStoreName;
 	}
@@ -79,7 +79,7 @@ public class Store {
 	 * @author Clinton Hodge
 	 * 
 	 */
-	public void UpdateInventory(Stock inventory)
+	public void updateInventory(Stock inventory)
 	{
 		this.inventory = inventory;
 	}
@@ -91,7 +91,7 @@ public class Store {
 	 * @author Clinton Hodge
 	 * 
 	 */
-	public void UpdateCapital(double newCapital)
+	public void updateCapital(double newCapital)
 	{
 		capital = newCapital;
 	}
