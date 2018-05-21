@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.*;
 
+import Stock.Manifest;
+
 
 public class Manifest_Test {
 	
