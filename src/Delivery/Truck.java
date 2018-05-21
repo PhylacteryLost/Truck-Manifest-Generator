@@ -12,7 +12,7 @@ public class Truck {
 		truckInventory = cargo;
 	}
 
-	public void AddCargo(Item inventory) {
+	public void AddCargo(Stock inventory) {
 		// TODO Auto-generated method stub
 		truckInventory = inventory;
 	}
