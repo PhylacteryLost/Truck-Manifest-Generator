@@ -129,4 +129,9 @@ public class Item {
 		// TODO Auto-generated method stub
 		return temp;
 	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+		
+	}
 }
