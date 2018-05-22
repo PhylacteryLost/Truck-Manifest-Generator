@@ -67,7 +67,7 @@ public class Item {
 	 * @Author Kyle Langton
 	 * @return the item name as a string
 	 */
-	public Object GetName() {
+	public String getName() {
 		// TODO Auto-generated method stub
 		return itemName;
 	}
@@ -77,7 +77,7 @@ public class Item {
 	 * @return the manufacture cost of the item as a double
 	 * 
 	 */
-	public double GetManufacturePrice() {
+	public double getManufacturePrice() {
 		// TODO Auto-generated method stub
 		return manfCost;
 	}
@@ -86,7 +86,7 @@ public class Item {
 	 * @Author Kyle Langton
 	 * @return the selling price of the item as a double
 	 */
-	public double GetSellPrice() {
+	public double getSellPrice() {
 		// TODO Auto-generated method stub
 		return sellingPrice;
 	}
@@ -95,7 +95,7 @@ public class Item {
 	 * @Author Kyle Langton
 	 * @return returns the reorderpoint of the item as a integer
 	 */
-	public int GetReorderPoint() {
+	public int getReorderPoint() {
 		// TODO Auto-generated method stub
 		return restockPoint;
 	}
@@ -104,7 +104,7 @@ public class Item {
 	 * @Author Kyle Langton
 	 * @return returns the re-order amount of the item as an integer
 	 */
-	public int GetReorderAmount() {
+	public int getReorderAmount() {
 		// TODO Auto-generated method stub
 		return reorderAmount;
 	}
@@ -125,7 +125,7 @@ public class Item {
 	 * @Author Kyle Langton
 	 * @return returns the temperature of the item
 	 */
-	public Double GetTemperature() {
+	public Double getTemperature() {
 		// TODO Auto-generated method stub
 		return temp;
 	}
