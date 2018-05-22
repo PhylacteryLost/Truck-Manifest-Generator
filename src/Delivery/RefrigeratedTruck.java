@@ -55,9 +55,9 @@ public class RefrigeratedTruck extends Truck {
 		for(Item i: cargo.getStock())
 		{
 			// CHECK IF WORKS.
-			if(i.GetTemperature() != null && i.GetTemperature() < temperature && i.GetTemperature() >= -20) 
+			if(i.getTemperature() != null && i.getTemperature() < temperature && i.getTemperature() >= -20) 
 			{		
-				temperature = i.GetTemperature();
+				temperature = i.getTemperature();
 			}			
 		}
 	}	
