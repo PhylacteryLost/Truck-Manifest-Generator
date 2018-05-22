@@ -64,7 +64,7 @@ public class Refrigerated_Truck_Test {
 	public void testCargoCost() {
 		testTruck = new RefrigeratedTruck(testStock);
 		System.out.println(testStock.getStock().get(0).getTemperature());
-		assertEquals(462, testTruck.getCost(), 0 );
+		assertEquals(1061.47, testTruck.getCost(), 0 );
 	}
 	
 
