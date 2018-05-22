@@ -60,8 +60,8 @@ public class GUI {
 		
 		
 		// Table 
-		DefaultTableModel tableSettings = new DefaultTableModel(new Object[]{"Name", "Quantity", "Manufactoring Cost", "Sell Price", "Reorder Point", "Reorder Amount", "Temperature"}, 0);
-		JTable inventoryTable = new JTable(tableSettings);
+		DefaultTableModel tableData = new DefaultTableModel(new Object[]{"Name", "Quantity", "Manufactoring Cost in $", "Sell Price in $", "Reorder Point", "Reorder Amount", "Temperature"}, 0);
+		JTable inventoryTable = new JTable(tableData);
 
 		
 		// Menu Bar 
@@ -70,7 +70,7 @@ public class GUI {
 
 		// Labels
 		
-		JLabel capitalLabel = new JLabel("Store Capital: " + storeCapital);
+		JLabel capitalLabel = new JLabel("Store Capital: $" + storeCapital);
 		double capital = supermarket.getCapital();
 		
 		// Menu Buttons
@@ -122,8 +122,8 @@ public class GUI {
 							
 							
 							Object[] tempData = { foodItem.getName(), foodItem.getQuantity(), foodItem.getManufacturePrice(), 
-									foodItem.getSellPrice(), foodItem.getReorderAmount(), foodItem.getReorderPoint(), null };
-							tableSettings.addRow(tempData);
+									foodItem.getSellPrice(), foodItem.getReorderPoint(), foodItem.getReorderAmount(), null };
+							tableData.addRow(tempData);
 							
 							// ---- TEMP STORE STUFF ----
 							storeInventory.addItem(foodItem);
@@ -136,8 +136,8 @@ public class GUI {
 										Double.parseDouble(readValues.get(stringcount)[5]));
 								
 							Object[] tempData = { foodItem.getName(), foodItem.getQuantity(), foodItem.getManufacturePrice(), 
-									foodItem.getSellPrice(), foodItem.getReorderAmount(), foodItem.getReorderPoint(), foodItem.getTemperature() };
-							tableSettings.addRow(tempData);
+									foodItem.getSellPrice(), foodItem.getReorderPoint(), foodItem.getReorderAmount() , foodItem.getTemperature() };
+							tableData.addRow(tempData);
 							
 							// ---- TEMP STORE STUFF ----
 							storeInventory.addItem(foodItem);
@@ -192,7 +192,7 @@ public class GUI {
 				}
 				
 				if (status == JFileChooser.OPEN_DIALOG) {
-					tableSettings.setRowCount(0);
+					tableData.setRowCount(0);
 					String fileName = csvChooser.getSelectedFile().getName();			
 					if (fileName.matches(".*.csv")) {
 						try {
@@ -262,25 +262,25 @@ public class GUI {
 					
 					for (int inventCount = 0; inventCount < storeInventory.getLength(); inventCount++) {
 						if (storeInventory.getItem(inventCount).getTemperature() == null) {
-							Object[] tempdata = { storeInventory.getItem(inventCount).getName(), storeInventory.getItem(inventCount).getQuantity(), storeInventory.getItem(inventCount).getSellPrice(), 
-									storeInventory.getItem(inventCount).getManufacturePrice(), storeInventory.getItem(inventCount).getReorderAmount(), 
-									storeInventory.getItem(inventCount).getReorderPoint(), storeInventory.getItem(inventCount).getTemperature() };
-							tableSettings.addRow(tempdata);
+							Object[] tempdata = { storeInventory.getItem(inventCount).getName(), storeInventory.getItem(inventCount).getQuantity(), storeInventory.getItem(inventCount).getManufacturePrice(), 
+									storeInventory.getItem(inventCount).getSellPrice(), storeInventory.getItem(inventCount).getReorderPoint(),
+									storeInventory.getItem(inventCount).getReorderAmount(), storeInventory.getItem(inventCount).getTemperature() };
+							tableData.addRow(tempdata);
 							}
 						}
 					
 					for (int inventCount = 0; inventCount < storeInventory.getLength(); inventCount++) {
 						if (storeInventory.getItem(inventCount).getTemperature() != null) {
-							Object[] tempdata = { storeInventory.getItem(inventCount).getName(), storeInventory.getItem(inventCount).getQuantity(), storeInventory.getItem(inventCount).getSellPrice(), 
-									storeInventory.getItem(inventCount).getManufacturePrice(), storeInventory.getItem(inventCount).getReorderAmount(), 
-									storeInventory.getItem(inventCount).getReorderPoint(), storeInventory.getItem(inventCount).getTemperature() };
-							tableSettings.addRow(tempdata);
+							Object[] tempdata = { storeInventory.getItem(inventCount).getName(), storeInventory.getItem(inventCount).getQuantity(), storeInventory.getItem(inventCount).getManufacturePrice(), 
+									storeInventory.getItem(inventCount).getSellPrice(), storeInventory.getItem(inventCount).getReorderPoint(),
+									storeInventory.getItem(inventCount).getReorderAmount(), storeInventory.getItem(inventCount).getTemperature() };
+							tableData.addRow(tempdata);
 							}
 						}
 					
 				
 				supermarket.updateCapital(supermarket.getCapital() - reduceCapitalValue);
-				capitalLabel.setText("Store Capital: " + supermarket.getCapital());
+				capitalLabel.setText("Store Capital: $" + supermarket.getCapital());
 				importItemProperties.setEnabled(false);
 				inventoryTable.disable();
 				inventoryTable.repaint();
