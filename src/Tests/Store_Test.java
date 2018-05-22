@@ -60,7 +60,7 @@ public class Store_Test {
 	@Test
 	public void testUpdatedCapital() {
 		testStore = Store.getStore();
-		testStore.setCapital(testStore.getCapital() - 100.00);
+		testStore.updateCapital(testStore.getCapital() - 100.00);
 		assertEquals(99900.00, testStore.getCapital(), 0);
 	}
 	
@@ -70,7 +70,7 @@ public class Store_Test {
 	@Test
 	public void testUpdatedDecimal() {
 		testStore = Store.getStore();
-		testStore.setCapital(testStore.getCapital() - 200.40);
+		testStore.updateCapital(testStore.getCapital() - 200.40);
 		assertEquals(99799.6, testStore.getCapital(), 0);	
 	}
 	
