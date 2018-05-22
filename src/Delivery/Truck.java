@@ -12,10 +12,6 @@ public class Truck {
 		truckInventory = cargo;
 	}
 
-	public void AddCargo(Stock inventory) {
-		// TODO Auto-generated method stub
-		truckInventory = inventory;
-	}
 
 	public Stock getCargo() {
 		// TODO Auto-generated method stub
