@@ -67,7 +67,12 @@ public class RefrigeratedTruck extends Truck {
 	
 	public void UpdateCargo(Stock cargo)
 	{
-		if(cargo.getStock().size() <= cargoCapacity) {
+		int numItems = 0;
+		for(Item i : cargo.getStock()) 
+		{
+			numItems += i.getQuantity();
+		}
+		if(numItems <= cargoCapacity) {
 			this.cargo = cargo;
 		}
 	}
@@ -118,6 +123,11 @@ public class RefrigeratedTruck extends Truck {
 	}
 	
 
+	/*
+	 * returns quantity of cargo in truck.
+	 *    
+	 * @author Clinton Hodge
+	 */
 	public int getCargoSize() {
 		int numItems = 0;
 		for(Item i : cargo.getStock()) {
