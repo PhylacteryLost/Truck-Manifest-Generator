@@ -14,12 +14,11 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
 
-<<<<<<< HEAD
-import Assignment.Program.Item;
+
+
 import Delivery.OrdinaryTruck;
-import Delivery.refrigeratedTruck;
-=======
->>>>>>> 24972d79352fa556112cc4f52d42dd1c8faee7a0
+import Delivery.RefrigeratedTruck;
+
 import Stock.Stock;
 import Stock.Store;
 import Stock.Item;
@@ -36,13 +35,12 @@ public class GUI {
 	
 	public static void gui() {
 		
-<<<<<<< HEAD
+
 		// Store variables 
 		
 
-		double storeCapital = supermarket.getCapital();
 		
-=======
+
 		// Store variables 		
 		Store supermarket = Store.getStore();
 		Stock storeInventory = new Stock();
@@ -50,7 +48,6 @@ public class GUI {
 		
 		// File path to manifest.
 		String manifestFilePath = null;
->>>>>>> 24972d79352fa556112cc4f52d42dd1c8faee7a0
 		
 		
 		// Swing Variables 
@@ -128,8 +125,8 @@ public class GUI {
 							
 							
 							
-							Object[] tempData = { foodItem.GetName(), foodItem.getQuantity(), foodItem.GetManufacturePrice(), 
-									foodItem.GetSellPrice(), foodItem.GetReorderAmount(), foodItem.GetReorderPoint(), null };
+							Object[] tempData = { foodItem.getName(), foodItem.getQuantity(), foodItem.getManufacturePrice(), 
+									foodItem.getSellPrice(), foodItem.getReorderAmount(), foodItem.getReorderPoint(), null };
 							tableSettings.addRow(tempData);
 							
 							// ---- TEMP STORE STUFF ----
@@ -142,8 +139,8 @@ public class GUI {
 										,Integer.parseInt(readValues.get(stringcount)[3]),Integer.parseInt(readValues.get(stringcount)[4]),
 										Double.parseDouble(readValues.get(stringcount)[5]));
 								
-							Object[] tempData = { foodItem.GetName(), foodItem.getQuantity(), foodItem.GetManufacturePrice(), 
-									foodItem.GetSellPrice(), foodItem.GetReorderAmount(), foodItem.GetReorderPoint(), foodItem.GetTemperature() };
+							Object[] tempData = { foodItem.getName(), foodItem.getQuantity(), foodItem.getManufacturePrice(), 
+									foodItem.getSellPrice(), foodItem.getReorderAmount(), foodItem.getReorderPoint(), foodItem.getTemperature() };
 							tableSettings.addRow(tempData);
 							
 							// ---- TEMP STORE STUFF ----
@@ -160,9 +157,7 @@ public class GUI {
 						mainFrame.add(inventoryTable, BorderLayout.CENTER);		
 						JOptionPane.showMessageDialog(csvChooserFrame, "Loaded Item Properties");
 						mainFrame.repaint();
-						mainFrame.setVisible(true);
-						
-								
+						mainFrame.setVisible(true);						
 					}
 					else {
 						JOptionPane.showMessageDialog(csvChooserFrame, "Error: Input was not a CSV File");
@@ -176,23 +171,26 @@ public class GUI {
 				importSaleLog.setEnabled(true);
 				importManifest.setEnabled(true);
 				exportManifest.setEnabled(true);
+				csvChooserFrame.dispose();
 			}
+			
+			
 			
 		});
 		
-<<<<<<< HEAD
+		
 		importManifest.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame csvChooserFrame = new JFrame();
 				JFileChooser csvChooser = new JFileChooser();
+				csvChooser.setFileFilter(new FileNameExtensionFilter(".csv", "csv"));
 				ArrayList<String[]> manifestContent = new ArrayList<String[]>();
-				storeInventory = supermarket.getInventory();
 				double reduceCapitalValue = 0.0;
 				int status = csvChooser.showOpenDialog(null);
 				
-				csvChooser.setFileFilter(new FileNameExtensionFilter(".csv", "csv"));
+				
 				
 				if (status == JFileChooser.CANCEL_OPTION) {
 					csvChooserFrame.dispose();
@@ -204,156 +202,6 @@ public class GUI {
 					if (fileName.matches(".*.csv")) {
 						try {
 							manifestContent = CSVReader.readCSV(csvChooser.getSelectedFile());
-=======
-		/*
-		 * exports manifest
-		 *    
-		 * @author Clinton Hodge
-		 *  
-		 */
-		exportManifest.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				PrintWriter pw = null;
-				
-				try 
-				{
-					// Set output manifest file.
-					pw = new PrintWriter(new File(manifestFilePath+"manifest.csv"));					
-				} 
-				catch (FileNotFoundException e1) 
-				{					
-					e1.printStackTrace();
-				}
-				
-				double cOrderQuantity = 0;				// Quantity of all cold items.
-				Stock manifest = new Stock();			// Items to be ordered.
-				Stock refrigeratedItems = new Stock();	// Refrigerated items.
-				Stock ordinaryItems = new Stock();		// Ordinary non-refrigerated items.
-				
-				
-				// Check all items in store inventory.
-				// Add under-stocked items to order.
-				for(Item i : supermarket.getInventory().getStock())
-				{
-					if((int)i.getQuantity() <= (int)i.GetReorderPoint())
-					{					
-						Item I = i;
-						I.setQuantity(I.GetReorderAmount());////////////////////// SET TO REORDER POINT ///////////////////
-						manifest.addItem(I);						
-					}
-				}
-				
-				// Check all items inside order.
-				// Get, sort and count all items.
-				for(Item i : manifest.getStock())
-				{
-					if(i.GetTemperature() != null)
-					{					
-						refrigeratedItems.addItem(i);
-						cOrderQuantity += i.getQuantity();
-					}
-					else 
-					{
-						ordinaryItems.addItem(i);					
-					}
-				}
-						
-				// Cold Trucks Needed.
-				int numColdTrucks = (int) Math.ceil(cOrderQuantity / 800.0);				
-				int curNumItems = 0, allNumItems = 0;
-				
-				int capacity = 800;		// Capacity of truck inventory (default cold truck)
-				String truckType = ">Refrigerated";
-				String newline = System.getProperty("line.separator");
-				Stock tempManifest = refrigeratedItems;
-				
-				// CSV file builder.
-				StringBuilder sb = new StringBuilder();
-				
-				
-				// Set heading, add stock.
-				sb.append(truckType);	
-				for(int j = 0; j < tempManifest.getLength(); j++)
-				{		
-					Item c = (Item) tempManifest.getItem(j);
-					
-					// Check if item quantity > max capacity.
-					if((curNumItems + c.getQuantity()) > capacity) 
-					{
-						// Fill item remaining space.
-						c.setQuantity(c.getQuantity() - (capacity - curNumItems));
-												
-						// Print only if item fits.
-						if(capacity - curNumItems != 0) {							
-							sb.append(newline+c.GetName() + ",");
-							sb.append(capacity - curNumItems);
-						}
-						allNumItems += (capacity - curNumItems);
-						curNumItems = 0;							
-													
-						// Calculate and loop by number of needed trucks.
-						for(int x = 0; x < Math.ceil(c.getQuantity() / capacity); x++)
-						{
-							// Set to ordinary trucks.
-							if(tempManifest == ordinaryItems && capacity != 1000 && allNumItems >= (800 * numColdTrucks)) 
-							{							
-								capacity = 1000;								
-								truckType = ">Ordinary";	
-							}
-							
-							// Parse CSV data.								
-								
-							sb.append(newline+truckType);							
-							sb.append(newline+c.GetName() + ",");								
-							
-							// Check if fits and parse.
-							if((int)c.getQuantity() > capacity)
-							{
-								c.setQuantity(c.getQuantity() - (capacity - curNumItems));
-								sb.append((int)(capacity - curNumItems)+newline);	
-								allNumItems += (capacity - curNumItems);
-								curNumItems = 0;
-							}
-							else
-							{
-								sb.append((int)c.getQuantity());
-								allNumItems += c.getQuantity();
-								curNumItems += c.getQuantity();								
-								c.setQuantity(0);
-							}
-						}
-					}
-					else
-					{		
-						// Parse items that fit.						
-						sb.append(newline+c.GetName() + ",");
-						sb.append((int)c.getQuantity());		
-						allNumItems += c.getQuantity();
-						curNumItems += c.getQuantity();
-						c.setQuantity(0);
-					}
-					
-					// Set ordinary truck cargo to add to manifest.
-					if(j >= tempManifest.getLength() - 1 && tempManifest == refrigeratedItems) {															
-						tempManifest = ordinaryItems;
-						j = 0;
-					}
-				}	
-				
-				
-				pw.write(sb.toString());
-				pw.close();
-				
-				// Display message.
-				JOptionPane.showMessageDialog(exportManifest, "Truck Manifest Exported");
-			}
-			
-		});
-		
->>>>>>> 24972d79352fa556112cc4f52d42dd1c8faee7a0
-		
 						}
 						catch (IOException e1){
 							e1.printStackTrace();
@@ -396,6 +244,7 @@ public class GUI {
 							while (!(manifestContent.get(counter)[0].matches(">Refrigerated")) && 
 									!(manifestContent.get(counter)[0].matches(">Ordinary")) &&
 									counter < manifestContent.size() ) {
+								
 								for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++ ) {
 									if (manifestContent.get(counter)[0].matches(storeInventory.getItem(inventoryCount).getName())) {
 										truckStock.addItem(storeInventory.getItem(inventoryCount));
@@ -410,9 +259,7 @@ public class GUI {
 								}
 								ordTruck = new OrdinaryTruck(truckStock);
 								reduceCapitalValue += ordTruck.getCost();
-				
-							
-								
+											
 							}
 						}
 						
@@ -427,9 +274,15 @@ public class GUI {
 							}
 						}
 					
-				
-				capital = capital - reduceCapitalValue;
-				capitalLabel.setText("Store Capital: " + capital);
+					for (int inventCount = 0; inventCount < storeInventory.getLength(); inventCount++) {
+						if (storeInventory.getItem(inventCount).getTemperature() != null) {
+							Object[] tempdata = { storeInventory.getItem(inventCount).getName(), storeInventory.getItem(inventCount).getQuantity(), storeInventory.getItem(inventCount).getSellPrice(), 
+									storeInventory.getItem(inventCount).getManufacturePrice(), storeInventory.getItem(inventCount).getReorderAmount(), 
+									storeInventory.getItem(inventCount).getReorderPoint(), storeInventory.getItem(inventCount).getTemperature() };
+							tableSettings.addRow(tempdata);
+							}
+						}
+				capitalLabel.setText("Store Capital: " + (storeCapital - reduceCapitalValue) );
 				importItemProperties.setEnabled(false);
 				inventoryTable.disable();
 				inventoryTable.repaint();
@@ -443,10 +296,161 @@ public class GUI {
 					JOptionPane.showMessageDialog(csvChooserFrame, "Error: Input was not a CSV File");
 				}
 				
-				
+				csvChooserFrame.dispose();
 			}
+			
 
 		});
+		
+		
+		/*
+		 * exports manifest
+		 *    
+		 * @author Clinton Hodge
+		 *  
+		 */
+		exportManifest.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PrintWriter pw = null;
+				
+				try 
+				{
+					// Set output manifest file.
+					pw = new PrintWriter(new File(manifestFilePath+"manifest.csv"));					
+				} 
+				catch (FileNotFoundException e1) 
+				{					
+					e1.printStackTrace();
+				}
+				
+				double cOrderQuantity = 0;				// Quantity of all cold items.
+				Stock manifest = new Stock();			// Items to be ordered.
+				Stock refrigeratedItems = new Stock();	// Refrigerated items.
+				Stock ordinaryItems = new Stock();		// Ordinary non-refrigerated items.
+				
+				
+				// Check all items in store inventory.
+				// Add under-stocked items to order.
+				for(Item i : supermarket.getInventory().getStock())
+				{
+					if((int)i.getQuantity() <= (int)i.getReorderPoint())
+					{					
+						Item I = i;
+						I.setQuantity(I.getReorderAmount());////////////////////// SET TO REORDER POINT ///////////////////
+						manifest.addItem(I);						
+					}
+				}
+				
+				// Check all items inside order.
+				// Get, sort and count all items.
+				for(Item i : manifest.getStock())
+				{
+					if(i.getTemperature() != null)
+					{					
+						refrigeratedItems.addItem(i);
+						cOrderQuantity += i.getQuantity();
+					}
+					else 
+					{
+						ordinaryItems.addItem(i);					
+					}
+				}
+						
+				// Cold Trucks Needed.
+				int numColdTrucks = (int) Math.ceil(cOrderQuantity / 800.0);				
+				int curNumItems = 0, allNumItems = 0;
+				
+				int capacity = 800;		// Capacity of truck inventory (default cold truck)
+				String truckType = ">Refrigerated";
+				String newline = System.getProperty("line.separator");
+				Stock tempManifest = refrigeratedItems;
+				
+				// CSV file builder.
+				StringBuilder sb = new StringBuilder();
+				
+				
+				// Set heading, add stock.
+				sb.append(truckType);	
+				for(int j = 0; j < tempManifest.getLength(); j++)
+				{		
+					Item c = (Item) tempManifest.getItem(j);
+					
+					// Check if item quantity > max capacity.
+					if((curNumItems + c.getQuantity()) > capacity) 
+					{
+						// Fill item remaining space.
+						c.setQuantity(c.getQuantity() - (capacity - curNumItems));
+												
+						// Print only if item fits.
+						if(capacity - curNumItems != 0) {							
+							sb.append(newline+c.getName() + ",");
+							sb.append(capacity - curNumItems);
+						}
+						allNumItems += (capacity - curNumItems);
+						curNumItems = 0;							
+													
+						// Calculate and loop by number of needed trucks.
+						for(int x = 0; x < Math.ceil(c.getQuantity() / capacity); x++)
+						{
+							// Set to ordinary trucks.
+							if(tempManifest == ordinaryItems && capacity != 1000 && allNumItems >= (800 * numColdTrucks)) 
+							{							
+								capacity = 1000;								
+								truckType = ">Ordinary";	
+							}
+							
+							// Parse CSV data.								
+								
+							sb.append(newline+truckType);							
+							sb.append(newline+c.getName() + ",");								
+							
+							// Check if fits and parse.
+							if((int)c.getQuantity() > capacity)
+							{
+								c.setQuantity(c.getQuantity() - (capacity - curNumItems));
+								sb.append((int)(capacity - curNumItems)+newline);	
+								allNumItems += (capacity - curNumItems);
+								curNumItems = 0;
+							}
+							else
+							{
+								sb.append((int)c.getQuantity());
+								allNumItems += c.getQuantity();
+								curNumItems += c.getQuantity();								
+								c.setQuantity(0);
+							}
+						}
+					}
+					else
+					{		
+						// Parse items that fit.						
+						sb.append(newline+c.getName() + ",");
+						sb.append((int)c.getQuantity());		
+						allNumItems += c.getQuantity();
+						curNumItems += c.getQuantity();
+						c.setQuantity(0);
+					}
+					
+					// Set ordinary truck cargo to add to manifest.
+					if(j >= tempManifest.getLength() - 1 && tempManifest == refrigeratedItems) {															
+						tempManifest = ordinaryItems;
+						j = 0;
+					}
+				}	
+				
+				
+				pw.write(sb.toString());
+				pw.close();
+				
+				// Display message.
+				JOptionPane.showMessageDialog(exportManifest, "Truck Manifest Exported");
+			}
+			
+		});
+		
+
 		
 		
 		
