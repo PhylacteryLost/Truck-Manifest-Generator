@@ -29,6 +29,9 @@ public class GUI {
 	private static Stock storeInventory = new Stock();
 	private static JFrame mainFrame = new JFrame();
 	
+	// File path to manifest.
+	static String manifestFilePath = null;
+			
 	public static void gui() {
 		
 
@@ -41,11 +44,7 @@ public class GUI {
 		Store supermarket = Store.getStore();
 		Stock storeInventory = new Stock();
 		double storeCapital = supermarket.getCapital();
-		
-		// File path to manifest.
-		String manifestFilePath = null;
-		
-		
+				
 		// Swing Variables 
 		
 		
@@ -108,6 +107,7 @@ public class GUI {
 						
 						try {
 							readValues = CSVReader.readCSV(csvChooser.getSelectedFile());
+							manifestFilePath = csvChooser.getSelectedFile().getParentFile().getPath()+"\\";
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

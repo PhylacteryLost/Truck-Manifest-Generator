@@ -31,7 +31,7 @@ public class Refrigerated_Truck_Test {
 		assertEquals(RefrigeratedTruck.class,testTruck.getClass());
 	}
 	/**
-	 * Gets the temperature of the truck, Equall to the temperature of the lowest item in the stock
+	 * Gets the temperature of the truck, Equal to the temperature of the lowest item in the stock
 	 */
 	@Test
 	public void testSetTemp() {
@@ -45,16 +45,16 @@ public class Refrigerated_Truck_Test {
 	@Test
 	public void TestCargoLimit() {
 		testTruck = new RefrigeratedTruck(testStock);
-		assertEquals(800, testTruck.getCargoLimit());		
+		assertEquals(800, testTruck.getCapacity());		
 	}
 	
 	/**
-	 * Gets the cargosize of the items currently inside the truck
+	 * Gets the cargo size of the items currently inside the truck
 	 */
 	@Test
 	public void testCargoSize() {
 		testTruck = new RefrigeratedTruck(testStock);
-		assertEquals(425.0, testTruck.getCargoSize());
+		assertEquals(425, testTruck.getCargoSize());
 	}
 
 	/**
@@ -63,6 +63,7 @@ public class Refrigerated_Truck_Test {
 	@Test
 	public void testCargoCost() {
 		testTruck = new RefrigeratedTruck(testStock);
+		System.out.println(testStock.getStock().get(0).getTemperature());
 		assertEquals(462, testTruck.getCost(), 0 );
 	}
 	

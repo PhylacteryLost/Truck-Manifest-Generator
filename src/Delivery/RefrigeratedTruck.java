@@ -94,7 +94,7 @@ public class RefrigeratedTruck extends Truck {
 	public double getCost()
 	{		
 		// Return cost of transport truck.
-		return 900 + 200 * Math.pow(0.7, temperature / 5);
+		return 900 + 200 * Math.pow(0.7, (temperature / 5));
 	}
 	
 	
@@ -108,5 +108,14 @@ public class RefrigeratedTruck extends Truck {
 	public int getCapacity()
 	{
 		return cargoCapacity;
+	}
+	
+
+	public int getCargoSize() {
+		int numItems = 0;
+		for(Item i : cargo.getStock()) {
+			numItems += i.getQuantity();
+		}
+		return numItems;
 	}
 }

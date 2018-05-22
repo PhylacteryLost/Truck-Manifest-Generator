@@ -58,8 +58,15 @@ public class OrdinaryTruck extends Truck {
 	@Override
 	public double getCost()
 	{		
+		int numItems = 0;
+		for(Item i : cargo.getStock()) {
+			numItems += i.getQuantity();
+		}
+		
 		// Return truck transport cost.
-		return 750 + (0.25 * cargo.getStock().size());
+		System.out.println(750 + (0.25 * numItems));
+		System.out.println(cargo.getStock().size());
+		return 750 + (0.25 * numItems);
 	}
 	
 	/*
@@ -72,5 +79,20 @@ public class OrdinaryTruck extends Truck {
 	public int getCapacity()
 	{
 		return this.cargoCapacity;
+	}
+
+	
+	/*
+	 * returns num items in inventory.
+	 *    
+	 * @author Clinton Hodge
+	 * 
+	 */
+	public int getCargoSize() {
+		int numItems = 0;
+		for(Item i : cargo.getStock()) {
+			numItems += i.getQuantity();
+		}
+		return numItems;
 	}
 }
