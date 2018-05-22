@@ -1,5 +1,7 @@
 package Delivery;
 
+import java.text.DecimalFormat;
+
 import Stock.Item;
 import Stock.Stock;
 
@@ -91,11 +93,16 @@ public class RefrigeratedTruck extends Truck {
 	 * 
 	 */
 	@Override
-	public double getCost()
-	{		
-		// Return cost of transport truck.
-		return 900 + 200 * Math.pow(0.7, (temperature / 5));
-	}
+    public double getCost()
+    {
+        // Return cost of transport truck.
+        DecimalFormat roundUpFormat = new DecimalFormat("###.##");
+        double returnValue =  900 + 200 * Math.pow(0.7, (temperature / 5));
+        String roundedUpValue = roundUpFormat.format(returnValue);
+        return Double.parseDouble(roundedUpValue);
+
+    }
+
 	
 	
 	/*
