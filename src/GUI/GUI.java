@@ -12,11 +12,17 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
 
 import Assignment.Program.Item;
+import Delivery.OrdinaryTruck;
+import Delivery.refrigeratedTruck;
 import Stock.Stock;
 import Stock.Store;
 import Stock.Item;
 
 public class GUI {
+	
+	private static Store supermarket = Store.getStore();
+	private static Stock storeInventory = new Stock();
+	private static JFrame mainFrame = new JFrame();
 	
 	public static void main(String[] args) {		
 		gui();
@@ -26,21 +32,23 @@ public class GUI {
 		
 		// Store variables 
 		
-		Store supermarket = Store.GetStore();
-		Stock storeInventory = new Stock();
-		double storeCapital = supermarket.GetCapital();
+
+		double storeCapital = supermarket.getCapital();
+		
 		
 		
 		// Swing Variables 
 		
 		
 		// Mainframe
-		JFrame mainFrame = new JFrame();
 		Dimension mainFrameSize = new Dimension(1000,600);
+		
 		
 		mainFrame.setTitle("Inventory");
 		mainFrame.setPreferredSize(mainFrameSize);
 		mainFrame.setLayout(new BorderLayout());
+		mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		
 		
 		// Table 
 		DefaultTableModel tableSettings = new DefaultTableModel(new Object[]{"Name", "Quantity", "Manufactoring Cost", "Sell Price", "Reorder Point", "Reorder Amount", "Temperature"}, 0);
@@ -54,6 +62,7 @@ public class GUI {
 		// Labels
 		
 		JLabel capitalLabel = new JLabel("Store Capital: " + storeCapital);
+		double capital = supermarket.getCapital();
 		
 		// Menu Buttons
 		JMenu fileButton = new JMenu("File");
@@ -90,12 +99,6 @@ public class GUI {
 						
 						try {
 							readValues = CSVReader.readCSV(csvChooser.getSelectedFile());
-							//manifestFilePath = csvChooser.getSelectedFile().getParentFile().getPath()+"\\";
-							
-							String regex = "item_properties";
-							//manifestFilePath.replaceAll("item", "manifest");
-							//System.out.println(manifestFilePath);
-							System.out.println(regex);
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -116,6 +119,7 @@ public class GUI {
 							// ---- TEMP STORE STUFF ----
 							storeInventory.addItem(foodItem);
 							}
+							
 							if (readValues.get(stringcount).length == 6){
 								
 								Item foodItem = new Item(readValues.get(stringcount)[0],Double.parseDouble(readValues.get(stringcount)[1]),Double.parseDouble(readValues.get(stringcount)[2])
@@ -139,7 +143,8 @@ public class GUI {
 						menuBar.add(inventoryTable.getTableHeader(), BorderLayout.SOUTH);
 						mainFrame.add(inventoryTable, BorderLayout.CENTER);		
 						JOptionPane.showMessageDialog(csvChooserFrame, "Loaded Item Properties");
-						mainFrame.pack();
+						mainFrame.repaint();
+						mainFrame.setVisible(true);
 						
 								
 					}
@@ -149,7 +154,7 @@ public class GUI {
 					
 				}
 				// Update store inventory with new one.
-				supermarket.UpdateInventory(storeInventory);
+				supermarket.updateInventory(storeInventory);
 				// Display pop-up message after completing task.
 				
 				importSaleLog.setEnabled(true);
@@ -159,7 +164,123 @@ public class GUI {
 			
 		});
 		
+		importManifest.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame csvChooserFrame = new JFrame();
+				JFileChooser csvChooser = new JFileChooser();
+				ArrayList<String[]> manifestContent = new ArrayList<String[]>();
+				storeInventory = supermarket.getInventory();
+				double reduceCapitalValue = 0.0;
+				int status = csvChooser.showOpenDialog(null);
+				
+				csvChooser.setFileFilter(new FileNameExtensionFilter(".csv", "csv"));
+				
+				if (status == JFileChooser.CANCEL_OPTION) {
+					csvChooserFrame.dispose();
+				}
+				
+				if (status == JFileChooser.OPEN_DIALOG) {
+					tableSettings.setRowCount(0);
+					String fileName = csvChooser.getSelectedFile().getName();			
+					if (fileName.matches(".*.csv")) {
+						try {
+							manifestContent = CSVReader.readCSV(csvChooser.getSelectedFile());
 		
+						}
+						catch (IOException e1){
+							e1.printStackTrace();
+						}
+					}
+					
+					for (int manifestCount = 0; manifestCount < manifestContent.size(); manifestCount++) {
+						if (manifestContent.get(manifestCount)[0].matches(">Refrigerated")) {
+							Stock truckStock = new Stock();
+							int counter = manifestCount + 1;
+							while (!(manifestContent.get(counter)[0].matches((">Refrigerated")) &&
+									!(manifestContent.get(counter)[0].matches(">Ordinary")) && 
+									counter < manifestContent.size())){
+								
+								for (int inventoryCounter = 0; inventoryCounter < storeInventory.getLength(); inventoryCounter++) {
+									if (manifestContent.get(counter)[0].matches(storeInventory.getItem(inventoryCounter).getName())) {
+										truckStock.addItem(storeInventory.getItem(inventoryCounter));
+										reduceCapitalValue += storeInventory.getItem(inventoryCounter).getManufacturePrice() * Double.parseDouble(manifestContent.get(counter)[1]);
+										storeInventory.getItem(inventoryCounter).setQuantity(storeInventory.getItem(inventoryCounter).getQuantity() + Integer.parseInt(manifestContent.get(counter)[1]));
+									}
+									
+								}
+								counter++;
+								if (counter == manifestContent.size()) {
+									break;
+								}
+								
+								
+							}
+							RefrigeratedTruck coldTruck = new RefrigeratedTruck(truckStock);
+							reduceCapitalValue += coldTruck.getCost();
+						}
+					}
+					
+					for (int manifestCount = 0; manifestCount < manifestContent.size(); manifestCount++) {
+						if (manifestContent.get(manifestCount)[0].matches(">Ordinary")) {
+							Stock truckStock = new Stock();
+							OrdinaryTruck ordTruck = new OrdinaryTruck(truckStock);
+							int counter = 0;
+							while (!(manifestContent.get(counter)[0].matches(">Refrigerated")) && 
+									!(manifestContent.get(counter)[0].matches(">Ordinary")) &&
+									counter < manifestContent.size() ) {
+								for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++ ) {
+									if (manifestContent.get(counter)[0].matches(storeInventory.getItem(inventoryCount).getName())) {
+										truckStock.addItem(storeInventory.getItem(inventoryCount));
+										reduceCapitalValue += storeInventory.getItem(inventoryCount).getManufacturePrice() * Double.parseDouble(manifestContent.get(counter)[1]);
+										storeInventory.getItem(inventoryCount).setQuantity(storeInventory.getItem(inventoryCount).getQuantity() + Integer.parseInt(manifestContent.get(counter)[1]));
+									}
+									
+								}
+								counter++;
+								if (counter == manifestContent.size()) {
+									break;
+								}
+								ordTruck = new OrdinaryTruck(truckStock);
+								reduceCapitalValue += ordTruck.getCost();
+				
+							
+								
+							}
+						}
+						
+					}
+					
+					for (int inventCount = 0; inventCount < storeInventory.getLength(); inventCount++) {
+						if (storeInventory.getItem(inventCount).getTemperature() == null) {
+							Object[] tempdata = { storeInventory.getItem(inventCount).getName(), storeInventory.getItem(inventCount).getQuantity(), storeInventory.getItem(inventCount).getSellPrice(), 
+									storeInventory.getItem(inventCount).getManufacturePrice(), storeInventory.getItem(inventCount).getReorderAmount(), 
+									storeInventory.getItem(inventCount).getReorderPoint(), storeInventory.getItem(inventCount).getTemperature() };
+							tableSettings.addRow(tempdata);
+							}
+						}
+					
+				
+				capital = capital - reduceCapitalValue;
+				capitalLabel.setText("Store Capital: " + capital);
+				importItemProperties.setEnabled(false);
+				inventoryTable.disable();
+				inventoryTable.repaint();
+				mainFrame.repaint();
+					
+					
+					
+				}
+				
+			else {
+					JOptionPane.showMessageDialog(csvChooserFrame, "Error: Input was not a CSV File");
+				}
+				
+				
+			}
+
+		});
 		
 		
 		
@@ -179,10 +300,8 @@ public class GUI {
 		
 		
 		// Run the GUI
-		mainFrame.setVisible(true);
 		mainFrame.pack();
-		
-		
+		mainFrame.setVisible(true);
 		
 		
 	}
