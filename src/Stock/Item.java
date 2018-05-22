@@ -24,7 +24,7 @@ public class Item {
 	 * @param integer reorderamount, the price of the reorder
 	 * @return An Item with the above properties
 	 */
-	public Item(String name, double sellPrice, double manfPrice, int reorderPoint, int reorderAmount) {
+	public Item(String name, double manfPrice, double sellPrice, int reorderPoint, int reorderAmount) {
 		itemName = name;
 		sellingPrice = sellPrice;
 		manfCost = manfPrice;
@@ -49,7 +49,7 @@ public class Item {
 	 * @param double temperature, the temperature of the item
 	 * @return An Item with the above properties
 	 */
-	public Item(String name, double sellPrice, double manfPrice, int reorderPoint, int reorderAmount, double temperature) {
+	public Item(String name, double manfPrice, double sellPrice, int reorderPoint, int reorderAmount, double temperature) {
 		itemName = name;
 		sellingPrice = sellPrice;
 		manfCost = manfPrice;
