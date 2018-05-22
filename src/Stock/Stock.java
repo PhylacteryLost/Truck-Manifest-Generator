@@ -56,7 +56,7 @@ public class Stock {
 	 * @return returns the item given at the location of the paramaters integer
 	 * @author Kyle Langton
 	 */
-	public Object getItem(int itemNumber) {
+	public Item getItem(int itemNumber) {
 		// TODO Auto-generated method stub
 		return inventory.get(itemNumber);
 	}
