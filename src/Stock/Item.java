@@ -30,7 +30,7 @@ public class Item {
 		manfCost = manfPrice;
 		restockPoint = reorderPoint;
 		this.reorderAmount = reorderAmount;
-		quantity = restockPoint;
+		quantity = 0;
 		temp = null;
 	}
 	
@@ -55,7 +55,7 @@ public class Item {
 		manfCost = manfPrice;
 		restockPoint = reorderPoint;
 		this.reorderAmount = reorderAmount;
-		quantity = restockPoint;
+		quantity = 0;
 		this.temp = temperature;
 	}
 
