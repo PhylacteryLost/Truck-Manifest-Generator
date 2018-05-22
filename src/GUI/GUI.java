@@ -29,10 +29,6 @@ public class GUI {
 	private static Stock storeInventory = new Stock();
 	private static JFrame mainFrame = new JFrame();
 	
-	public static void main(String[] args) {		
-		gui();
-	}
-	
 	public static void gui() {
 		
 
