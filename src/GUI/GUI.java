@@ -180,7 +180,6 @@ public class GUI {
 		
 		
 		importManifest.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame csvChooserFrame = new JFrame();
@@ -310,7 +309,6 @@ public class GUI {
 		 *  
 		 */
 		exportManifest.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				PrintWriter pw = null;
