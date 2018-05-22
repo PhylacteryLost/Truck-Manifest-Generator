@@ -71,7 +71,7 @@ public class Store_Test {
 	public void testUpdatedDecimal() {
 		testStore = Store.getStore();
 		testStore.updateCapital(testStore.getCapital() - 200.40);
-		assertEquals(99799.6, testStore.getCapital(), 0);	
+		assertEquals(99699.60, testStore.getCapital(), 0);	
 	}
 	
 	@Test

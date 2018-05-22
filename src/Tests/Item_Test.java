@@ -22,37 +22,37 @@ public class Item_Test
 	@Test	// Try test if item name correct.
 	public void TestItemNameCooled()
 	{
-		assertEquals("test_item", itemCooled.GetName());
+		assertEquals("test_item", itemCooled.getName());
 	}
 
 	@Test
 	public void TestItemNameUncooled()
 	{
-		assertEquals("test_item_uncooled", item.GetName());
+		assertEquals("test_item_uncooled", item.getName());
 	}
 
 	@Test	// Try test if manufacture price correct.
 	public void TestManufacturePrice()
 	{
-		assertEquals(40.00, itemCooled.GetManufacturePrice(),0);
+		assertEquals(40.00, itemCooled.getManufacturePrice(),0);
 	}
 
 	@Test	// Try test if sell price is correct.
 	public void TestSellPrice()
 	{
-		assertEquals(35.00, itemCooled.GetSellPrice(),0);
+		assertEquals(35.00, itemCooled.getSellPrice(),0);
 	}
 
 	@Test	// Try test if reorder point correct.
 	public void TestReorderPoint()
 	{
-		assertEquals(20, (int)itemCooled.GetReorderPoint());
+		assertEquals(20, (int)itemCooled.getReorderPoint());
 	}
 
 	@Test	// test if reorder amount correct.
 	public void TestReorderAmount()
 	{
-		assertEquals(30, (int)itemCooled.GetReorderAmount());
+		assertEquals(30, (int)itemCooled.getReorderAmount());
 	}
 
 	@Test
@@ -71,6 +71,6 @@ public class Item_Test
 	@Test
 	public void TestTempreatureCooled()
 	{
-		assertEquals(54.67, itemCooled.GetTemperature(),0);
+		assertEquals(54.67, itemCooled.getTemperature(),0);
 	}
 }

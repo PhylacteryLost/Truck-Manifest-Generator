@@ -3,9 +3,15 @@ package Tests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import org.junit.*;
 
+import Delivery.OrdinaryTruck;
+import Delivery.RefrigeratedTruck;
+import Delivery.Truck;
 import Stock.Manifest;
+import Stock.Stock;
 
 
 public class Manifest_Test {
@@ -16,7 +22,7 @@ public class Manifest_Test {
 	OrdinaryTruck testOrd = new OrdinaryTruck(testStock);
 	RefrigeratedTruck testRef = new RefrigeratedTruck(testStock);
 	
-	Arraylist<Truck> testColl; 
+	ArrayList<Truck> testColl; 
 	
 	
 	@Before
@@ -31,13 +37,6 @@ public class Manifest_Test {
 		assertEquals(Manifest.class, testManifest.getClass());
 	}
 	
-	@Test
-	public void testType() {
-		testManifest = new Manifest();
-		assertEquals(testColl.class , testManifest.getManifest());
-		
-	}
-	
 	
 	@Test
 	public void testAdd() {
@@ -50,7 +49,7 @@ public class Manifest_Test {
 	public void testLength() {
 		testManifest = new Manifest();
 		testManifest.addTruck(testOrd);
-		testManifest.addTruck(test);
+		testManifest.addTruck(testRef);
 		assertEquals(2, testManifest.getLength());	
 	}
 	
