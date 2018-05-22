@@ -2,6 +2,8 @@ package Stock;
 
 import java.util.ArrayList;
 
+import Delivery.OrdinaryTruck;
+import Delivery.RefrigeratedTruck;
 import Delivery.Truck;
 
 public class Manifest {
@@ -28,5 +30,47 @@ public class Manifest {
 	public ArrayList<Truck> getManifest()
 	{
 		return trucks;
+	}
+
+	/*
+	 * adds ordinary truck to manifest.
+	 *    
+	 * @author Clinton Hodge
+	 * 
+	 */
+	public void addTruck(OrdinaryTruck newTruck) {
+		trucks.add(newTruck);		
+	}
+	
+	
+	/*
+	 * adds refrigerated truck to manifest.
+	 *    
+	 * @author Clinton Hodge
+	 * 
+	 */
+	public void addTruck(RefrigeratedTruck  newTruck) {
+		trucks.add(newTruck);
+	}
+
+	
+	/*
+	 *  returns truck from manifest.
+	 *    
+	 * @author Clinton Hodge
+	 * 
+	 */
+	public Truck getTruck(int truckIndex) {		
+		return trucks.get(truckIndex);
+	}
+
+	/*
+	 *  returns number of trucks in manifest.
+	 *    
+	 * @author Clinton Hodge
+	 * 
+	 */
+	public int getLength() {
+		return trucks.size();
 	}
 }
