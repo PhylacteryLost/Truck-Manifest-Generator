@@ -1,7 +1,10 @@
 package Tests;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.*;
 
+import Delivery.RefrigeratedTruck;
 import Stock.Item;
 import Stock.Stock;
 
@@ -33,7 +36,7 @@ public class Refrigerated_Truck_Test {
 	@Test
 	public void testSetTemp() {
 		testTruck = new RefrigeratedTruck(testStock);
-		assertEquals(3.0, testTruck.getTemperature());
+		assertEquals(3.0, testTruck.getTemperature(), 0 );
 	}
 	
 	/*
@@ -60,7 +63,7 @@ public class Refrigerated_Truck_Test {
 	@Test
 	public void testCargoCost() {
 		testTruck = new RefrigeratedTruck(testStock);
-		assertEquals(462, testTruck.getTruckCost());
+		assertEquals(462, testTruck.getCost(), 0 );
 	}
 	
 
