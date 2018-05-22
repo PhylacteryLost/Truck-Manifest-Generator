@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.*;
 
+import Delivery.OrdinaryTruck;
 import Delivery.RefrigeratedTruck;
 import Stock.Item;
 import Stock.Stock;
@@ -54,9 +55,10 @@ public class Refrigerated_Truck_Test {
 	@Test
 	public void testCargoSize() {
 		testTruck = new RefrigeratedTruck(testStock);
-		assertEquals(425, testTruck.getCargoSize());
+		assertEquals(0, testTruck.getCargoSize());
 	}
-
+	
+	
 	/**
 	 * Tests that the calculation for the price of the truck is correct
 	 */
@@ -67,5 +69,11 @@ public class Refrigerated_Truck_Test {
 		assertEquals(1061.47, testTruck.getCost(), 0 );
 	}
 	
+	@Test
+	public void testUpdatedCargoSize() {
+		testTruck = new RefrigeratedTruck(testStock);
+		testStock.getItem(0).setQuantity(50);
+		assertEquals(50, testTruck.getCargoSize());
+	}
 
 }

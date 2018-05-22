@@ -55,18 +55,26 @@ public class Ordinary_Truck_Test {
 	public void testGetCargoSize() {
 		testTruck = new OrdinaryTruck(testStock);
 		testStock.addItem(beans);
-		assertEquals(450, testTruck.getCargoSize());
+		assertEquals(0, testTruck.getCargoSize());
 	}
-	
+		
 	/*
 	 * Tests that the truck cost is being calculated properly
 	 */
 	@Test
 	public void testCost() {
 		testStock.addItem(beans);
-		testTruck = new OrdinaryTruck(testStock);	
-		assertEquals(862.5, testTruck.getCost(), 0 );
+		testStock.getItem(0).setQuantity(50);
+		testTruck = new OrdinaryTruck(testStock);
+		assertEquals(762.5, testTruck.getCost(), 0 );
 	}
 	
-	
+	@Test
+	public void testUpdatedCargoSize() {
+		testTruck = new OrdinaryTruck(testStock);
+		testStock.addItem(beans);
+		testStock.getItem(0).setQuantity(50);
+		assertEquals(50, testTruck.getCargoSize());
+	}
+
 }
