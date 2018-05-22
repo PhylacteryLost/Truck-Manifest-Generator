@@ -281,7 +281,10 @@ public class GUI {
 							tableSettings.addRow(tempdata);
 							}
 						}
-				capitalLabel.setText("Store Capital: " + (storeCapital - reduceCapitalValue) );
+					
+				
+				supermarket.updateCapital(supermarket.getCapital() - reduceCapitalValue);
+				capitalLabel.setText("Store Capital: " + supermarket.getCapital());
 				importItemProperties.setEnabled(false);
 				inventoryTable.disable();
 				inventoryTable.repaint();
