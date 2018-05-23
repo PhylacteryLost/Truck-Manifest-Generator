@@ -22,7 +22,7 @@ import Delivery.RefrigeratedTruck;
 import Stock.Stock;
 import Stock.Store;
 import Stock.Item;
-import Stock.Manifest;
+import Delivery.Manifest;
 
 public class GUI {
 	

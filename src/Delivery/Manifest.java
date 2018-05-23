@@ -1,10 +1,6 @@
-package Stock;
+package Delivery;
 
 import java.util.ArrayList;
-
-import Delivery.OrdinaryTruck;
-import Delivery.RefrigeratedTruck;
-import Delivery.Truck;
 
 public class Manifest {
 	private ArrayList<Truck> trucks = new ArrayList<Truck>();

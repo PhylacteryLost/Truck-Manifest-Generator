@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 import org.junit.*;
 
+import Delivery.Manifest;
 import Delivery.OrdinaryTruck;
 import Delivery.RefrigeratedTruck;
 import Delivery.Truck;
-import Stock.Manifest;
 import Stock.Stock;
 
 

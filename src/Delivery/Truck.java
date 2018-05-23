@@ -1,11 +1,10 @@
 package Delivery;
 
-import Stock.Item;
 import Stock.Stock;
 
 public class Truck {
 	
-	Stock truckInventory;
+	private Stock truckInventory;
 
 	public Truck(Stock cargo) {
 		// TODO Auto-generated constructor stub
