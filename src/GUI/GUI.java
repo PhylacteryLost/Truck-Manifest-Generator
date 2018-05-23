@@ -22,6 +22,7 @@ import Delivery.RefrigeratedTruck;
 import Stock.Stock;
 import Stock.Store;
 import Stock.Item;
+import Stock.Manifest;
 
 public class GUI {
 	
@@ -322,8 +323,117 @@ public class GUI {
 					e1.printStackTrace();
 				}
 				
+				
+				
+				Manifest manifest = new Manifest();							
+				Stock cItems = new Stock();
+				Stock oItems = new Stock();
+				Stock tempCargo = new Stock();
+				
+				// Iterate through all store inventory items.
+				for(Item i : supermarket.getInventory().getStock())
+				{
+					// Check if order more of item.
+					if(i.getQuantity() <= i.getReorderPoint())
+					{
+						Item I = i;
+						I.setQuantity(I.getReorderAmount());
+						if(I.getTemperature() != null) 
+						{
+							cItems.addItem(I);
+						}
+						else
+						{
+							oItems.addItem(I);
+						}
+						
+					}
+				}
+				int capacity = 800;	
+				int count = cItems.getStock().size() - 1;
+			
+				
+				boolean sFlag = true;
+				
+			
+				
+				while(sFlag)
+				{
+					sFlag = false;				
+		
+					for(int i = 0; i < count; i++)
+					{								
+						if(cItems.getItem(i+1).getTemperature() < cItems.getItem(i).getTemperature())
+						{
+							Item c = cItems.getItem(i);
+							cItems.getStock().set(i, cItems.getItem(i+1));
+							cItems.getStock().set(i+1, c);
+							
+							sFlag = true;												
+						}
+					}				
+				}
+				
+				/*
+				
+				
+				
+				
+				
+				
+				
+				Manifest manifest = new Manifest();				
+				Stock items = new Stock();
+				Stock tempCargo = new Stock();
+				
+				// Iterate through all store inventory items.
+				for(Item i : supermarket.getInventory().getStock())
+				{
+					// Check if order more of item.
+					if(i.getQuantity() <= i.getReorderPoint())
+					{
+						Item I = i;
+						I.setQuantity(I.getReorderAmount());
+						items.addItem(I);
+					}
+				}
+				int capacity = 800;	
+				int count = items.getStock().size() - 1;
+				int numItems = 0;
+				
+				for(int i = 0; i < count; i++) 
+				{
+					for(int j = 0; j < count; j++)
+					{
+						// Check if item cold and if coldest.
+						if(items.getItem(i) != null && items.getItem(i).getTemperature() < items.getItem(j).getTemperature())
+						{												
+							if(numItems + items.getItem(i).getQuantity() > capacity)
+							{
+								Item c = items.getItem(i);
+								if(capacity - numItems != 0)
+								{									
+									c.setQuantity(items.getItem(i).getQuantity() - (capacity - numItems));					// Set temp item quantity.
+									items.getItem(i).setQuantity(items.getItem(i).getQuantity() - (capacity - numItems));	// Set item quantity.
+									tempCargo.addItem(c);																	//
+								}
+								
+								tempCargo.addItem(c);
+								RefrigeratedTruck t = new RefrigeratedTruck(tempCargo)
+								manifest.addTruck(t);
+							}
+						}
+					}
+				}
+				
+				
+				
+				
+				
+				
+				
 				double cOrderQuantity = 0;				// Quantity of all cold items.
-				Stock manifest = new Stock();			// Items to be ordered.
+				//Stock manifest = new Stock();			// Items to be ordered.
 				Stock refrigeratedItems = new Stock();	// Refrigerated items.
 				Stock ordinaryItems = new Stock();		// Ordinary non-refrigerated items.
 				
@@ -359,7 +469,7 @@ public class GUI {
 				int numColdTrucks = (int) Math.ceil(cOrderQuantity / 800.0);				
 				int curNumItems = 0, allNumItems = 0;
 				
-				int capacity = 800;		// Capacity of truck inventory (default cold truck)
+				// Capacity of truck inventory (default cold truck)
 				String truckType = ">Refrigerated";
 				String newline = System.getProperty("line.separator");
 				Stock tempManifest = refrigeratedItems;
@@ -443,7 +553,9 @@ public class GUI {
 				
 				// Display message.
 				JOptionPane.showMessageDialog(exportManifest, "Truck Manifest Exported");
+				*/
 			}
+			//csvChooserFrame.dispose();
 			
 		});
 		
