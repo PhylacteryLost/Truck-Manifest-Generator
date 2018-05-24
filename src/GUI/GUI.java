@@ -14,8 +14,6 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
 
-
-
 import Delivery.OrdinaryTruck;
 import Delivery.RefrigeratedTruck;
 import Delivery.Truck;
@@ -177,129 +175,124 @@ public class GUI {
 		
 		
 		importManifest.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFrame csvChooserFrame = new JFrame();
+				JFrame manifestFrame = new JFrame();
 				JFileChooser csvChooser = new JFileChooser();
-				csvChooser.setFileFilter(new FileNameExtensionFilter(".csv", "csv"));
 				ArrayList<String[]> manifestContent = new ArrayList<String[]>();
-				double reduceCapitalValue = 0.0;
+				csvChooser.setFileFilter(new FileNameExtensionFilter(".csv", "csv"));
+				manifestFrame.add(csvChooser);
 				int status = csvChooser.showOpenDialog(null);
-				
-				
-				
+				double reduceValue = 0.0;		
+			
+										
 				if (status == JFileChooser.CANCEL_OPTION) {
-					csvChooserFrame.dispose();
+					manifestFrame.dispose();
 				}
-				
 				if (status == JFileChooser.OPEN_DIALOG) {
 					tableData.setRowCount(0);
-					String fileName = csvChooser.getSelectedFile().getName();			
+					String fileName =  csvChooser.getSelectedFile().getName();
+					
 					if (fileName.matches(".*.csv")) {
+						JOptionPane.showMessageDialog(manifestFrame, "Loaded Manifest");
 						try {
 							manifestContent = CSVReader.readCSV(csvChooser.getSelectedFile());
-						}
-						catch (IOException e1){
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-					}
-					
-					for (int manifestCount = 0; manifestCount < manifestContent.size(); manifestCount++) {
-						if (manifestContent.get(manifestCount)[0].matches(">Refrigerated")) {
-							Stock truckStock = new Stock();
-							int counter = manifestCount + 1;
-							while (!(manifestContent.get(counter)[0].matches((">Refrigerated")) &&
-									!(manifestContent.get(counter)[0].matches(">Ordinary")) && 
-									counter < manifestContent.size())){
-								
-								for (int inventoryCounter = 0; inventoryCounter < storeInventory.getLength(); inventoryCounter++) {
-									if (manifestContent.get(counter)[0].matches(storeInventory.getItem(inventoryCounter).getName())) {
-										truckStock.addItem(storeInventory.getItem(inventoryCounter));
-										reduceCapitalValue += storeInventory.getItem(inventoryCounter).getManufacturePrice() * Double.parseDouble(manifestContent.get(counter)[1]);
-										storeInventory.getItem(inventoryCounter).setQuantity(storeInventory.getItem(inventoryCounter).getQuantity() + Integer.parseInt(manifestContent.get(counter)[1]));
-									}
-									
-								}
-								counter++;
-								if (counter == manifestContent.size()) {
-									break;
-								}
-								
-								
-							}
-							RefrigeratedTruck coldTruck = new RefrigeratedTruck(truckStock);
-							reduceCapitalValue += coldTruck.getCost();
+						
+						for (int i = 0; i < storeInventory.getLength();i++) {
+							System.out.println(storeInventory.getItem(i).getName() + " " + storeInventory.getItem(i).getQuantity());
 						}
-					}
-					
-					for (int manifestCount = 0; manifestCount < manifestContent.size(); manifestCount++) {
-						if (manifestContent.get(manifestCount)[0].matches(">Ordinary")) {
-							Stock truckStock = new Stock();
-							OrdinaryTruck ordTruck = new OrdinaryTruck(truckStock);
-							int counter = 0;
-							while (!(manifestContent.get(counter)[0].matches(">Refrigerated")) && 
-									!(manifestContent.get(counter)[0].matches(">Ordinary")) &&
-									counter < manifestContent.size() ) {
-								
-								for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++ ) {
-									if (manifestContent.get(counter)[0].matches(storeInventory.getItem(inventoryCount).getName())) {
-										truckStock.addItem(storeInventory.getItem(inventoryCount));
-										reduceCapitalValue += storeInventory.getItem(inventoryCount).getManufacturePrice() * Double.parseDouble(manifestContent.get(counter)[1]);
-										storeInventory.getItem(inventoryCount).setQuantity(storeInventory.getItem(inventoryCount).getQuantity() + Integer.parseInt(manifestContent.get(counter)[1]));
+						
+						for (int manifestCount = 0; manifestCount < manifestContent.size();  manifestCount++) {
+							if (manifestContent.get(manifestCount)[0].matches(">Refrigerated")) {
+								Stock truckStock = new Stock();
+								RefrigeratedTruck coldTruck = new RefrigeratedTruck(truckStock);
+								int counter = manifestCount + 1;
+								while (!(manifestContent.get(counter)[0].matches(">Refrigerated")) && !(manifestContent.get(counter)[0].matches(">Ordinary")) && counter < manifestContent.size() ) {
+									for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++) {
+										if (manifestContent.get(counter)[0].matches(storeInventory.getItem(inventoryCount).getName())) {
+											truckStock.addItem(storeInventory.getItem(inventoryCount));
+											reduceValue += storeInventory.getItem(inventoryCount).getManufacturePrice() * Double.parseDouble(manifestContent.get(counter)[1]);
+											storeInventory.getItem(inventoryCount).setQuantity(storeInventory.getItem(inventoryCount).getQuantity() + Integer.parseInt(manifestContent.get(counter)[1]));
+										}
 									}
-									
+									counter++;
+									if (counter == manifestContent.size()) {
+										break;
+									}
 								}
-								counter++;
-								if (counter == manifestContent.size()) {
-									break;
+							
+								try {
+									coldTruck = new RefrigeratedTruck(truckStock);
+									reduceValue += coldTruck.getCost();
+								} catch (Exception e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
 								}
-								ordTruck = new OrdinaryTruck(truckStock);
-								reduceCapitalValue += ordTruck.getCost();
-											
+							}
+						}
+					
+						
+																					
+						for (int manifestCount = 0; manifestCount < manifestContent.size();  manifestCount++) {
+							if (manifestContent.get(manifestCount)[0].matches(">Ordinary")) {
+								Stock ordStock = new Stock();
+								OrdinaryTruck ordTruck = new OrdinaryTruck(ordStock);
+								int count = manifestCount + 1;
+								while (!(manifestContent.get(count)[0].matches(">Refrigerated")) && !(manifestContent.get(count)[0].matches(">Ordinary")) && count < manifestContent.size() ) {
+									for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++) {
+										if (manifestContent.get(count)[0].matches(storeInventory.getItem(inventoryCount).getName())) {
+											ordStock.addItem(storeInventory.getItem(inventoryCount));
+											reduceValue += storeInventory.getItem(inventoryCount).getManufacturePrice() * Double.parseDouble(manifestContent.get(count)[1]);
+											storeInventory.getItem(inventoryCount).setQuantity(storeInventory.getItem(inventoryCount).getQuantity() + Integer.parseInt(manifestContent.get(count)[1]));
+										}
+									}
+									count++;
+									if (count == manifestContent.size()) {
+										break;
+									}
+								}
+								try {
+									ordTruck = new OrdinaryTruck(ordStock);
+									reduceValue += ordTruck.getCost();
+								} catch (Exception e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
 							}
 						}
 						
+							
+						
+							for (int inventCount = 0; inventCount < storeInventory.getLength(); inventCount++) {
+								Object[] tempData = { storeInventory.getItem(inventCount).getName(), storeInventory.getItem(inventCount).getQuantity(), storeInventory.getItem(inventCount).getManufacturePrice(), 
+										storeInventory.getItem(inventCount).getSellPrice(), storeInventory.getItem(inventCount).getReorderPoint(),
+										storeInventory.getItem(inventCount).getReorderAmount(), storeInventory.getItem(inventCount).getTemperature() };
+								tableData.addRow(tempData);
+							}
+							
+							
+							supermarket.updateCapital(supermarket.getCapital() - reduceValue);
+							capitalLabel.setText("Store Capital: " + supermarket.getCapital());		
+							importItemProperties.setEnabled(false);
+							inventoryTable.disable();
+							inventoryTable.repaint();
+							mainFrame.repaint();
+						}
+									
 					}
-					
-					for (int inventCount = 0; inventCount < storeInventory.getLength(); inventCount++) {
-						if (storeInventory.getItem(inventCount).getTemperature() == null) {
-							Object[] tempdata = { storeInventory.getItem(inventCount).getName(), storeInventory.getItem(inventCount).getQuantity(), storeInventory.getItem(inventCount).getManufacturePrice(), 
-									storeInventory.getItem(inventCount).getSellPrice(), storeInventory.getItem(inventCount).getReorderPoint(),
-									storeInventory.getItem(inventCount).getReorderAmount(), storeInventory.getItem(inventCount).getTemperature() };
-							tableData.addRow(tempdata);
-							}
-						}
-					
-					for (int inventCount = 0; inventCount < storeInventory.getLength(); inventCount++) {
-						if (storeInventory.getItem(inventCount).getTemperature() != null) {
-							Object[] tempdata = { storeInventory.getItem(inventCount).getName(), storeInventory.getItem(inventCount).getQuantity(), storeInventory.getItem(inventCount).getManufacturePrice(), 
-									storeInventory.getItem(inventCount).getSellPrice(), storeInventory.getItem(inventCount).getReorderPoint(),
-									storeInventory.getItem(inventCount).getReorderAmount(), storeInventory.getItem(inventCount).getTemperature() };
-							tableData.addRow(tempdata);
-							}
-						}
-					
-				
-				supermarket.updateCapital(supermarket.getCapital() - reduceCapitalValue);
-				capitalLabel.setText("Store Capital: $" + supermarket.getCapital());
-				importItemProperties.setEnabled(false);
-				inventoryTable.disable();
-				inventoryTable.repaint();
-				mainFrame.repaint();
-					
-					
-					
+					else {
+						JOptionPane.showMessageDialog(manifestFrame, "Error: Input was not a CSV File");
+					}
 				}
-				
-			else {
-					JOptionPane.showMessageDialog(csvChooserFrame, "Error: Input was not a CSV File");
-				}
-				
-				csvChooserFrame.dispose();
+
 			}
 			
-
-		});
+		);
 		
 		
 	
