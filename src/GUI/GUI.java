@@ -656,7 +656,7 @@ public class GUI {
 
 									// Update table
 									Object temp = tableData.getValueAt(i, 1);
-									temp = (Double.parseDouble(temp.toString()) - Double.parseDouble(readValues.get(i)[1]));
+									temp = (int) (Double.parseDouble(temp.toString()) - Double.parseDouble(readValues.get(i)[1]));
 									tableData.setValueAt(temp, i, 1);
 								}
 							}
