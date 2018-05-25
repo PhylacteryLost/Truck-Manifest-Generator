@@ -235,7 +235,8 @@ public class GUI {
 								e2.printStackTrace();
 							}
 						}
-
+						
+						
 						for (int manifestCount = 0; manifestCount < manifestContent.size();  manifestCount++) {
 							if (manifestContent.get(manifestCount)[0].matches(">Refrigerated")) {
 								Stock truckStock = new Stock();
