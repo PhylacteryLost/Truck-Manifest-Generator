@@ -17,6 +17,7 @@ public class Refrigerated_Truck_Test {
 
 	/**
 	 * Sets up before the tests
+	 * @author Kyle Langton	
 	 */
 	@Before
 	public void setUp() {
@@ -25,6 +26,7 @@ public class Refrigerated_Truck_Test {
 	}
 	/**
 	 * Tests is the truck is refrigerated truck
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testClass() {
@@ -33,6 +35,7 @@ public class Refrigerated_Truck_Test {
 	}
 	/**
 	 * Gets the temperature of the truck, Equal to the temperature of the lowest item in the stock
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testSetTemp() {
@@ -42,6 +45,7 @@ public class Refrigerated_Truck_Test {
 	
 	/*
 	 * Checks to see if the cargoLimit is at 800;
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void TestCargoLimit() {
@@ -51,6 +55,7 @@ public class Refrigerated_Truck_Test {
 	
 	/**
 	 * Gets the cargo size of the items currently inside the truck
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testCargoSize() {
@@ -61,6 +66,7 @@ public class Refrigerated_Truck_Test {
 	
 	/**
 	 * Tests that the calculation for the price of the truck is correct
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testCargoCost() {
@@ -69,6 +75,10 @@ public class Refrigerated_Truck_Test {
 		assertEquals(1061.47, testTruck.getCost(), 0 );
 	}
 	
+	/*
+	 * Test the cargo size updates correctly
+	 * @author Kyle Langton
+	 */
 	@Test
 	public void testUpdatedCargoSize() {
 		testTruck = new RefrigeratedTruck(testStock);

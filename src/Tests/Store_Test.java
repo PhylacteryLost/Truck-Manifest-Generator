@@ -17,16 +17,18 @@ public class Store_Test {
 	Item rice = new Item("Rice", 2.0 , 3.0, 225, 300 );
 	Item beans = new Item("Beans", 4.0 , 6.0, 450, 525);
 	
-	/**
-	 * Sets the store to null before executing the tests
+	/*
+	 * Sets the testStore to null
+	 * @Author Kyle Langton
 	 */
 	@Before
 	public void setUpTests() {
 		testStore = null;	
 	}
 	
-	/**
-	 * Tests to check if the testStore variable is a type of Store
+	/*
+	 * Tests if the testStore is a type of Store
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testStoreClass() {
@@ -35,8 +37,9 @@ public class Store_Test {
 	}
 	
 	
-	/**
-	 * Checks to see if the storeName has been updated within the testStore variable
+	/*
+	 * Test that store name is assigned and updates correctly 
+	 * @author Kyle Langton 
 	 */
 	@Test
 	public void testStoreName() {
@@ -46,7 +49,8 @@ public class Store_Test {
 	}
 	
 	/**
-	 * Check to see if the store has the required capital starting value
+	 * Test if the intial capital is set at 100,000.00
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testStoreCapital() {
@@ -54,8 +58,9 @@ public class Store_Test {
 		assertEquals(100000.00, testStore.getCapital(),0);
 	}
 	
-	/**
-	 * Checks to see that the capital has been updated to the correct amount
+	/*
+	 * Test if the store capital updates correctly
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testUpdatedCapital() {
@@ -64,8 +69,9 @@ public class Store_Test {
 		assertEquals(99900.00, testStore.getCapital(), 0);
 	}
 	
-	/**
-	 * Checks to see that the capital has been updated including its decimal values
+	/*
+	 * Test that the capital updated to the correct decimal value 
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testUpdatedDecimal() {
@@ -74,6 +80,10 @@ public class Store_Test {
 		assertEquals(99699.60, testStore.getCapital(), 0);	
 	}
 	
+	/*
+	 * test the the inventory is that placed inside the store
+	 * @author Kyle Langton
+	 */
 	@Test
 	public void testInventory() {
 		testStore = Store.getStore();

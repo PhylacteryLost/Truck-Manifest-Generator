@@ -22,6 +22,7 @@ public class Ordinary_Truck_Test {
 	
 	/*
 	 * Tests the that the truck is an Ordinary Truck
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testClass() {
@@ -31,6 +32,7 @@ public class Ordinary_Truck_Test {
 	
 	/* 
 	 * Tests that the cargo limit is 1000
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testCargoLimit() {
@@ -41,6 +43,7 @@ public class Ordinary_Truck_Test {
 	/*
 	 * Tests that the cargo is the stock is the one that was imported into 
 	 * the class
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testCargo() {
@@ -50,6 +53,7 @@ public class Ordinary_Truck_Test {
 	
 	/* 
 	 * Test that the cargo size is being calculated correctly
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testGetCargoSize() {
@@ -60,6 +64,7 @@ public class Ordinary_Truck_Test {
 		
 	/*
 	 * Tests that the truck cost is being calculated properly
+	 * @author Kyle Langton
 	 */
 	@Test
 	public void testCost() {
@@ -69,6 +74,10 @@ public class Ordinary_Truck_Test {
 		assertEquals(762.5, testTruck.getCost(), 0 );
 	}
 	
+	/*
+	 * Test that the cargo size updated correctly
+	 * @author Kyle Langton
+	 */
 	@Test
 	public void testUpdatedCargoSize() {
 		testTruck = new OrdinaryTruck(testStock);

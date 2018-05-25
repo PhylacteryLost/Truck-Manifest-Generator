@@ -14,6 +14,8 @@ public class Stock_Test
 	Item item_1, item_2;
 	Item item_3;
 	
+	
+
 	@Before
 	public void TestAddItemsToInventory()
 	{		

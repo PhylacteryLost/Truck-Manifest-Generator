@@ -91,7 +91,7 @@ public class GUI {
 
 		
 		/*
-		 * imports item properties file.
+		 * Imports a csv file which creates item using the properties found within the csv files
 		 *
 		 * @author Kyle Langton
 		 *
@@ -120,7 +120,8 @@ public class GUI {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-
+						
+						// Scans through the csv documents creating an item out of the CSV values
 						for (int stringcount = 0; stringcount < readValues.size(); stringcount++) {
 							try
 							{
@@ -202,7 +203,7 @@ public class GUI {
 
 		
 		/*
-		 * imports manifest file.
+		 * Imports manifest and updates the store capital based on the quanity of items being passed.
 		 *
 		 * @author Kyle Langton
 		 *
@@ -239,7 +240,8 @@ public class GUI {
 							}
 						}
 						
-						
+						// Trys to create a cold truck and runs through all the values inside the csv file trying to match it to an item
+						// Only runs for Refrigerated trucks
 						for (int manifestCount = 0; manifestCount < manifestContent.size();  manifestCount++) {
 							if (manifestContent.get(manifestCount)[0].matches(">Refrigerated")) {
 								Stock truckStock = new Stock();
@@ -328,6 +330,9 @@ public class GUI {
 							}
 						}
 						
+						
+						// Trys to create a cold truck and runs through all the values inside the csv file trying to match it to an item
+						// Only runs for Ordinary trucks
 						for (int manifestCount = 0; manifestCount < manifestContent.size();  manifestCount++) {
 							if (manifestContent.get(manifestCount)[0].matches(">Ordinary")) {
 								Stock ordStock = new Stock();
@@ -402,6 +407,7 @@ public class GUI {
 								}									
 							}
 						}
+						// Updates the data inside the JTable
 							for (int inventCount = 0; inventCount < storeInventory.getLength(); inventCount++) {
 								Object[] tempData = { storeInventory.getItem(inventCount).getName(), storeInventory.getItem(inventCount).getQuantity(), storeInventory.getItem(inventCount).getManufacturePrice(),
 										storeInventory.getItem(inventCount).getSellPrice(), storeInventory.getItem(inventCount).getReorderPoint(),
@@ -409,7 +415,7 @@ public class GUI {
 								tableData.addRow(tempData);
 							}
 
-
+							// Updates the capital label and refreshes the frame.
 							supermarket.updateCapital(supermarket.getCapital() - reduceValue);
 							capitalLabel.setText("Store Capital: " + supermarket.getCapital());
 							importItemProperties.setEnabled(false);
