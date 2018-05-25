@@ -641,7 +641,8 @@ public class GUI {
 						// File value array.
 						ArrayList<String[]> readValues = new ArrayList<String[]>();
 
-						try {
+						try 
+						{
 							// Values of file saved to an array.
 							readValues = CSVReader.readCSV(salesChooser.getSelectedFile());
 
@@ -661,14 +662,16 @@ public class GUI {
 							}
 							capitalLabel.setText("Store Capital: " + supermarket.getCapital());
 
-						} catch (IOException e1) {
+						} 
+						catch (Exception e1) 
+						{
 							try
 							{
 								throw new CSVFormatException("CSV Format Exception - check CSV formatting - couldn't get quantity and/or item name.");
 							}
 							catch(Exception e11)
 							{
-								e1.printStackTrace();
+								e11.printStackTrace();
 							}
 						}
 
