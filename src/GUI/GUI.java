@@ -227,6 +227,7 @@ public class GUI {
 									for (int i = 0; i < coldTruck.getCargo().getLength(); i++) {
 									System.out.println(coldTruck.getCargo().getItem(i).getName());
 									}
+									System.out.println(coldTruck.getTemperature());
 									System.out.println("\n");
 									reduceValue = reduceValue +  coldTruck.getCost();
 							}
