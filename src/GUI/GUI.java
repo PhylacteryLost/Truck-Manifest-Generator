@@ -457,7 +457,7 @@ public class GUI {
 					// Set ordinary truck cargo to add to manifest.
 					if(j >= manifest.getLength() - 1 && manifest == cItems) {															
 						manifest = oItems;
-						j = 0;
+						j = -1;
 					}
 				}	
 				
