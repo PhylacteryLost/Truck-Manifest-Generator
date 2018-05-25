@@ -184,7 +184,8 @@ public class GUI {
 				csvChooser.setFileFilter(new FileNameExtensionFilter(".csv", "csv"));
 				manifestFrame.add(csvChooser);
 				int status = csvChooser.showOpenDialog(null);
-				double reduceValue = 0.0;		
+				double reduceValue = 0.0;	
+				Stock tempStock = supermarket.getInventory();
 			
 										
 				if (status == JFileChooser.CANCEL_OPTION) {
@@ -202,36 +203,50 @@ public class GUI {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-					
 						
 						for (int manifestCount = 0; manifestCount < manifestContent.size();  manifestCount++) {
 							if (manifestContent.get(manifestCount)[0].matches(">Refrigerated")) {
 								Stock truckStock = new Stock();
-								RefrigeratedTruck coldTruck = new RefrigeratedTruck(truckStock);
-								int counter = manifestCount + 1;
-								while (!(manifestContent.get(counter)[0].matches(">Refrigerated")) && !(manifestContent.get(counter)[0].matches(">Ordinary")) && counter < manifestContent.size() ) {
+								RefrigeratedTruck coldtruck = new RefrigeratedTruck(truckStock);
+								int count = manifestCount + 1;
+								while (!(manifestContent.get(count)[0].matches(">Refrigerated")) && !(manifestContent.get(count)[0].matches(">Ordinary")) && count < manifestContent.size() ) {
 									for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++) {
-										if (manifestContent.get(counter)[0].matches(storeInventory.getItem(inventoryCount).getName())) {
-											truckStock.addItem(storeInventory.getItem(inventoryCount));
-											reduceValue = reduceValue +  storeInventory.getItem(inventoryCount).getManufacturePrice() * Double.parseDouble(manifestContent.get(counter)[1]);
-											storeInventory.getItem(inventoryCount).setQuantity((int) (storeInventory.getItem(inventoryCount).getQuantity() + Double.parseDouble((manifestContent.get(counter)[1]))));
+										if (manifestContent.get(count)[0].matches(storeInventory.getItem(inventoryCount).getName())) {
+											
+											Item oldItem = storeInventory.getItem(inventoryCount);
+											if (oldItem.getTemperature() != null) {
+											Item newItem = new Item(oldItem.getName(), oldItem.getManufacturePrice(), oldItem.getSellPrice(), oldItem.getReorderPoint(), oldItem.getReorderAmount(), oldItem.getTemperature());
+
+											truckStock.addItem(newItem);
+											
+											}
+											if (oldItem.getTemperature() == null) {
+											Item newItem = new Item(oldItem.getName(), oldItem.getManufacturePrice(), oldItem.getSellPrice(), oldItem.getReorderPoint(), oldItem.getReorderAmount());	
+											truckStock.addItem(newItem);
+											
+											}
+											
+											
+											reduceValue = reduceValue + storeInventory.getItem(inventoryCount).getManufacturePrice() * Double.parseDouble(manifestContent.get(count)[1]);
+											storeInventory.getItem(inventoryCount).setQuantity((int) (storeInventory.getItem(inventoryCount).getQuantity() + Double.parseDouble((manifestContent.get(count)[1]))));
 										}
 									}
-									counter++;
-									if (counter == manifestContent.size()) {
+									count++;
+									if (count == manifestContent.size()) {
 										break;
 									}
 								}
-								    coldTruck = new RefrigeratedTruck(truckStock);
-								    
-									for (int i = 0; i < coldTruck.getCargo().getLength(); i++) {
-									System.out.println(coldTruck.getCargo().getItem(i).getName());
+									coldtruck = new RefrigeratedTruck(truckStock);
+									
+									for (int i = 0; i < coldtruck.getCargo().getLength(); i++) {
+									System.out.println(coldtruck.getCargo().getItem(i).getName());
 									}
-									System.out.println(coldTruck.getTemperature());
+									System.out.println(coldtruck.getCost());
 									System.out.println("\n");
-									reduceValue = reduceValue +  coldTruck.getCost();
+									reduceValue = reduceValue +  coldtruck.getCost();
 							}
 						}
+											
 					
 						
 																					
