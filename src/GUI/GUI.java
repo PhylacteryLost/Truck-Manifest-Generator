@@ -662,7 +662,14 @@ public class GUI {
 							capitalLabel.setText("Store Capital: " + supermarket.getCapital());
 
 						} catch (IOException e1) {
-							e1.printStackTrace();
+							try
+							{
+								throw new CSVFormatException("CSV Format Exception - check CSV formatting - couldn't get quantity and/or item name.");
+							}
+							catch(Exception e11)
+							{
+								e1.printStackTrace();
+							}
 						}
 
 						// Display completion message pop-up.
@@ -678,9 +685,7 @@ public class GUI {
 
 
 
-
-
-		// Adding Components to the menubar
+		// Adding Components to the menu bar
 		menuBar.add(fileButton, BorderLayout.WEST);
 		menuBar.add(capitalLabel, BorderLayout.EAST);
 
@@ -693,14 +698,8 @@ public class GUI {
 		// Adding components to the mainframe
 		mainFrame.add(menuBar, BorderLayout.NORTH);
 
-
 		// Run the GUI
 		mainFrame.pack();
 		mainFrame.setVisible(true);
-
-
 	}
-
-
-
 }
