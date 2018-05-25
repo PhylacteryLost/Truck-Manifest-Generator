@@ -18,6 +18,7 @@ import Delivery.OrdinaryTruck;
 import Delivery.RefrigeratedTruck;
 import Delivery.Truck;
 import Execeptions.CSVFormatException;
+import Execeptions.DeliveryException;
 import Stock.Stock;
 import Stock.Store;
 import Stock.Item;
@@ -238,7 +239,25 @@ public class GUI {
 						for (int manifestCount = 0; manifestCount < manifestContent.size();  manifestCount++) {
 							if (manifestContent.get(manifestCount)[0].matches(">Refrigerated")) {
 								Stock truckStock = new Stock();
-								RefrigeratedTruck coldtruck = new RefrigeratedTruck(truckStock);
+								RefrigeratedTruck coldtruck;
+								try 
+								{
+									coldtruck = new RefrigeratedTruck(truckStock);
+								}
+								catch(Exception e1)
+								{
+									try 
+									{
+										throw new DeliveryException("Delivery Exception - Cargo dosen't fit inside refrigerated truck.");
+									} 
+									catch (DeliveryException e2) 
+									{										
+										e2.printStackTrace();
+									}
+								}
+								
+								
+								
 								int count = manifestCount + 1;
 								while (!(manifestContent.get(count)[0].matches(">Refrigerated")) && !(manifestContent.get(count)[0].matches(">Ordinary")) && count <= manifestContent.size() ) {
 									for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++) {
@@ -284,7 +303,23 @@ public class GUI {
 						for (int manifestCount = 0; manifestCount < manifestContent.size();  manifestCount++) {
 							if (manifestContent.get(manifestCount)[0].matches(">Ordinary")) {
 								Stock ordStock = new Stock();
-								OrdinaryTruck ordTruck = new OrdinaryTruck(ordStock);
+								OrdinaryTruck ordTruck;
+								try 
+								{
+									ordTruck = new OrdinaryTruck(ordStock);
+								}
+								catch(Exception e1)
+								{
+									try 
+									{
+										throw new DeliveryException("Delivery Exception - Cargo dosen't fit inside truck.");
+									} 
+									catch (DeliveryException e2) 
+									{										
+										e2.printStackTrace();
+									}
+								}
+								
 								int count = manifestCount + 1;
 								while (!(manifestContent.get(count)[0].matches(">Refrigerated")) && !(manifestContent.get(count)[0].matches(">Ordinary")) && count <= manifestContent.size() ) {
 									for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++) {
@@ -313,14 +348,31 @@ public class GUI {
 										break;
 									}
 								}
+									
+								try 
+								{
 									ordTruck = new OrdinaryTruck(ordStock);
-									for (int i = 0; i < ordTruck.getCargo().getLength(); i++) {
-									System.out.println(ordTruck.getCargo().getItem(i).getName());
-									System.out.println(ordTruck.getCargo().getItem(i).getQuantity());
+									for (int i = 0; i < ordTruck.getCargo().getLength(); i++) 
+									{
+										System.out.println(ordTruck.getCargo().getItem(i).getName());
+										System.out.println(ordTruck.getCargo().getItem(i).getQuantity());										
 									}
 									System.out.println(ordTruck.getCost());
 									System.out.println("\n");
-									reduceValue = reduceValue +  ordTruck.getCost();
+									reduceValue = reduceValue +  ordTruck.getCost();										
+								}
+								catch(Exception e1)
+								{
+									try 
+									{
+										throw new DeliveryException("Delivery Exception - Cargo dosen't fit inside truck.");
+									} 
+									catch (DeliveryException e2) 
+									{										
+										e2.printStackTrace();
+									}
+								}
+									
 							
 							}
 						}
