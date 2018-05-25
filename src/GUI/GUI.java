@@ -19,6 +19,7 @@ import Delivery.RefrigeratedTruck;
 import Delivery.Truck;
 import Execeptions.CSVFormatException;
 import Execeptions.DeliveryException;
+import Execeptions.StockException;
 import Stock.Stock;
 import Stock.Store;
 import Stock.Item;
@@ -82,13 +83,19 @@ public class GUI {
 
 		JMenuItem importSaleLog = new JMenuItem("Import Sales log");
 		importSaleLog.setEnabled(false);
-
-
+		
 		JMenuItem exportManifest = new JMenuItem("Export Manifest");
 		exportManifest.setEnabled(false);
 
 		// Action Listeners
 
+		
+		/*
+		 * imports item properties file.
+		 *
+		 * @author Kyle Langton
+		 *
+		 */
 		importItemProperties.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -155,10 +162,6 @@ public class GUI {
 								}
 							}
 							
-							
-							
-							
-							
 							if(readValues.get(stringcount).length > 6 || readValues.get(stringcount).length < 5)
 							{								
 								try 
@@ -171,9 +174,6 @@ public class GUI {
 								}
 							}
 						}
-
-
-						
 
 						// Finally Configure The Table //
 						inventoryTable.disable();
@@ -197,14 +197,17 @@ public class GUI {
 				exportManifest.setEnabled(true);
 				csvChooserFrame.dispose();
 			}
-
-
-
 		});
 
 
+		
+		/*
+		 * imports manifest file.
+		 *
+		 * @author Kyle Langton
+		 *
+		 */
 		importManifest.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame manifestFrame = new JFrame();
@@ -258,24 +261,36 @@ public class GUI {
 								}
 								
 								
-								
 								int count = manifestCount + 1;
 								while (!(manifestContent.get(count)[0].matches(">Refrigerated")) && !(manifestContent.get(count)[0].matches(">Ordinary")) && count <= manifestContent.size() ) {
 									for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++) {
 										if (manifestContent.get(count)[0].matches(storeInventory.getItem(inventoryCount).getName())) {
 
-											Item oldItem = storeInventory.getItem(inventoryCount);
-											if (oldItem.getTemperature() != null) {
-											Item newItem = new Item(oldItem.getName(), oldItem.getManufacturePrice(), oldItem.getSellPrice(), oldItem.getReorderPoint(), oldItem.getReorderAmount(), oldItem.getTemperature());
-											newItem.setQuantity((int) Double.parseDouble(manifestContent.get(count)[1]));
-											truckStock.addItem(newItem);
+											Item oldItem;
+											try
+											{
+												oldItem = storeInventory.getItem(inventoryCount);
+												if (oldItem.getTemperature() != null) {
+													Item newItem = new Item(oldItem.getName(), oldItem.getManufacturePrice(), oldItem.getSellPrice(), oldItem.getReorderPoint(), oldItem.getReorderAmount(), oldItem.getTemperature());
+													newItem.setQuantity((int) Double.parseDouble(manifestContent.get(count)[1]));
+													truckStock.addItem(newItem);
 
+													}
+													if (oldItem.getTemperature() == null) {
+													Item newItem = new Item(oldItem.getName(), oldItem.getManufacturePrice(), oldItem.getSellPrice(), oldItem.getReorderPoint(), oldItem.getReorderAmount());
+													newItem.setQuantity((int) Double.parseDouble(manifestContent.get(count)[1]));
+													truckStock.addItem(newItem);
+													}
 											}
-											if (oldItem.getTemperature() == null) {
-											Item newItem = new Item(oldItem.getName(), oldItem.getManufacturePrice(), oldItem.getSellPrice(), oldItem.getReorderPoint(), oldItem.getReorderAmount());
-											newItem.setQuantity((int) Double.parseDouble(manifestContent.get(count)[1]));
-											truckStock.addItem(newItem);
+											catch(Exception e1)
+											{
+												try {
+													throw new StockException("Stock Exception - Couldn't create item copy from store.");
+												} catch (StockException e2) {													
+													e2.printStackTrace();
+												}
 											}
+											
 
 											reduceValue = reduceValue + storeInventory.getItem(inventoryCount).getManufacturePrice() * Double.parseDouble(manifestContent.get(count)[1]);
 											storeInventory.getItem(inventoryCount).setQuantity((int) (storeInventory.getItem(inventoryCount).getQuantity() + Double.parseDouble((manifestContent.get(count)[1]))));
@@ -286,21 +301,33 @@ public class GUI {
 										break;
 									}
 								}
+								try 
+								{
 									coldtruck = new RefrigeratedTruck(truckStock);
-
-									for (int i = 0; i < coldtruck.getCargo().getLength(); i++) {
-									System.out.println(coldtruck.getCargo().getItem(i).getName());
-									System.out.println(coldtruck.getCargo().getItem(i).getQuantity());
+									
+									for (int i = 0; i < coldtruck.getCargo().getLength(); i++) 
+									{
+										System.out.println(coldtruck.getCargo().getItem(i).getName());
+										System.out.println(coldtruck.getCargo().getItem(i).getQuantity());
 									}
 									System.out.println(coldtruck.getTemperature());
 									System.out.println("\n");
-									reduceValue = reduceValue +  coldtruck.getCost();
+									reduceValue = reduceValue +  coldtruck.getCost();										
+								}
+								catch(Exception e1)
+								{
+									try
+									{
+										throw new DeliveryException("Delivery Exception - Couldn't create cold truck.");
+									}
+									catch(Exception e11)
+									{
+										e11.printStackTrace();
+									}
+								}	
 							}
 						}
-
-
-
-
+						
 						for (int manifestCount = 0; manifestCount < manifestContent.size();  manifestCount++) {
 							if (manifestContent.get(manifestCount)[0].matches(">Ordinary")) {
 								Stock ordStock = new Stock();
@@ -372,14 +399,9 @@ public class GUI {
 									{										
 										e2.printStackTrace();
 									}
-								}
-									
-							
+								}									
 							}
 						}
-
-
-
 							for (int inventCount = 0; inventCount < storeInventory.getLength(); inventCount++) {
 								Object[] tempData = { storeInventory.getItem(inventCount).getName(), storeInventory.getItem(inventCount).getQuantity(), storeInventory.getItem(inventCount).getManufacturePrice(),
 										storeInventory.getItem(inventCount).getSellPrice(), storeInventory.getItem(inventCount).getReorderPoint(),
@@ -410,7 +432,7 @@ public class GUI {
 
 
 		/*
-		 * exports manifest
+		 * exports manifest file.
 		 *
 		 * @author Clinton Hodge
 		 *
@@ -592,9 +614,13 @@ public class GUI {
 		});
 
 
-
+		/*
+		 * imports sales log file.
+		 *
+		 * @author Clinton Hodge
+		 *
+		 */
 		importSaleLog.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFrame salesChooserFrame = new JFrame();
