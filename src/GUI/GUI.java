@@ -208,7 +208,7 @@ public class GUI {
 								Stock truckStock = new Stock();
 								RefrigeratedTruck coldtruck = new RefrigeratedTruck(truckStock);
 								int count = manifestCount + 1;
-								while (!(manifestContent.get(count)[0].matches(">Refrigerated")) && !(manifestContent.get(count)[0].matches(">Ordinary")) && count < manifestContent.size() ) {
+								while (!(manifestContent.get(count)[0].matches(">Refrigerated")) && !(manifestContent.get(count)[0].matches(">Ordinary")) && count <= manifestContent.size() ) {
 									for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++) {
 										if (manifestContent.get(count)[0].matches(storeInventory.getItem(inventoryCount).getName())) {
 
@@ -254,7 +254,7 @@ public class GUI {
 								Stock ordStock = new Stock();
 								OrdinaryTruck ordTruck = new OrdinaryTruck(ordStock);
 								int count = manifestCount + 1;
-								while (!(manifestContent.get(count)[0].matches(">Refrigerated")) && !(manifestContent.get(count)[0].matches(">Ordinary")) && count < manifestContent.size() ) {
+								while (!(manifestContent.get(count)[0].matches(">Refrigerated")) && !(manifestContent.get(count)[0].matches(">Ordinary")) && count <= manifestContent.size() ) {
 									for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++) {
 										if (manifestContent.get(count)[0].matches(storeInventory.getItem(inventoryCount).getName())) {
 
@@ -359,9 +359,17 @@ public class GUI {
 				{
 					if((int)i.getQuantity() <= (int)i.getReorderPoint())
 					{
-						Item I = i;
-						I.setQuantity(I.getReorderAmount());
-						manifest.addItem(I);
+						Item oldItem = i;
+						if (oldItem.getTemperature() != null) {
+							Item newItem = new Item(i.getName(),i.getManufacturePrice(), i.getSellPrice(), i.getReorderPoint(), i.getReorderAmount(), i.getTemperature());
+							newItem.setQuantity(newItem.getReorderAmount());
+							manifest.addItem(newItem);
+						}
+						if (oldItem.getTemperature() == null) {
+							Item newItem = new Item(i.getName(),i.getManufacturePrice(), i.getSellPrice(), i.getReorderPoint(), i.getReorderAmount());
+							newItem.setQuantity(newItem.getReorderAmount());
+							manifest.addItem(newItem);
+						}
 					}
 				}
 
@@ -532,7 +540,7 @@ public class GUI {
 									// Remove sold items form store stock.
 									// Add net profit (sale price - manufacture cost) to capital.
 									storeInventory.getItem(i).setQuantity(storeInventory.getItem(i).getQuantity() - (int)Double.parseDouble(readValues.get(i)[1]));
-									supermarket.updateCapital(supermarket.getCapital() + (storeInventory.getItem(i).getSellPrice() - storeInventory.getItem(i).getManufacturePrice()));
+									supermarket.updateCapital(supermarket.getCapital() + (storeInventory.getItem(i).getSellPrice() * Double.parseDouble(readValues.get(i)[1])));
 
 									// Update table
 									Object temp = tableData.getValueAt(i, 1);
