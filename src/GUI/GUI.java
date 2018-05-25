@@ -14,7 +14,6 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
 
-import Assignment.Program.RefrigeratedItem;
 import Delivery.OrdinaryTruck;
 import Delivery.RefrigeratedTruck;
 import Delivery.Truck;
@@ -203,10 +202,7 @@ public class GUI {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						
-						for (int i = 0; i < storeInventory.getLength();i++) {
-							System.out.println(storeInventory.getItem(i).getName() + " " + storeInventory.getItem(i).getQuantity());
-						}
+					
 						
 						for (int manifestCount = 0; manifestCount < manifestContent.size();  manifestCount++) {
 							if (manifestContent.get(manifestCount)[0].matches(">Refrigerated")) {
@@ -217,8 +213,8 @@ public class GUI {
 									for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++) {
 										if (manifestContent.get(counter)[0].matches(storeInventory.getItem(inventoryCount).getName())) {
 											truckStock.addItem(storeInventory.getItem(inventoryCount));
-											reduceValue += storeInventory.getItem(inventoryCount).getManufacturePrice() * Double.parseDouble(manifestContent.get(counter)[1]);
-											storeInventory.getItem(inventoryCount).setQuantity(storeInventory.getItem(inventoryCount).getQuantity() + Integer.parseInt(manifestContent.get(counter)[1]));
+											reduceValue = reduceValue +  storeInventory.getItem(inventoryCount).getManufacturePrice() * Double.parseDouble(manifestContent.get(counter)[1]);
+											storeInventory.getItem(inventoryCount).setQuantity((int) (storeInventory.getItem(inventoryCount).getQuantity() + Double.parseDouble((manifestContent.get(counter)[1]))));
 										}
 									}
 									counter++;
@@ -226,14 +222,13 @@ public class GUI {
 										break;
 									}
 								}
-							
-								try {
-									coldTruck = new RefrigeratedTruck(truckStock);
-									reduceValue += coldTruck.getCost();
-								} catch (Exception e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								}
+								    coldTruck = new RefrigeratedTruck(truckStock);
+								    
+									for (int i = 0; i < coldTruck.getCargo().getLength(); i++) {
+									System.out.println(coldTruck.getCargo().getItem(i).getName());
+									}
+									System.out.println("\n");
+									reduceValue = reduceValue +  coldTruck.getCost();
 							}
 						}
 					
@@ -248,8 +243,8 @@ public class GUI {
 									for (int inventoryCount = 0; inventoryCount < storeInventory.getLength(); inventoryCount++) {
 										if (manifestContent.get(count)[0].matches(storeInventory.getItem(inventoryCount).getName())) {
 											ordStock.addItem(storeInventory.getItem(inventoryCount));
-											reduceValue += storeInventory.getItem(inventoryCount).getManufacturePrice() * Double.parseDouble(manifestContent.get(count)[1]);
-											storeInventory.getItem(inventoryCount).setQuantity(storeInventory.getItem(inventoryCount).getQuantity() + Integer.parseInt(manifestContent.get(count)[1]));
+											reduceValue = reduceValue + storeInventory.getItem(inventoryCount).getManufacturePrice() * Double.parseDouble(manifestContent.get(count)[1]);
+											storeInventory.getItem(inventoryCount).setQuantity((int) (storeInventory.getItem(inventoryCount).getQuantity() + Double.parseDouble((manifestContent.get(count)[1]))));
 										}
 									}
 									count++;
@@ -257,13 +252,13 @@ public class GUI {
 										break;
 									}
 								}
-								try {
 									ordTruck = new OrdinaryTruck(ordStock);
-									reduceValue += ordTruck.getCost();
-								} catch (Exception e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								}
+									
+									for (int i = 0; i < ordTruck.getCargo().getLength(); i++) {
+									System.out.println(ordTruck.getCargo().getItem(i).getName());
+									}
+									System.out.println("\n");
+									reduceValue = reduceValue +  ordTruck.getCost();
 							}
 						}
 						
