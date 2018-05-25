@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.*;
 
+import Assignment.Program.RefrigeratedItem;
 import Delivery.OrdinaryTruck;
 import Delivery.RefrigeratedTruck;
 import Delivery.Truck;
@@ -306,6 +307,7 @@ public class GUI {
 		exportManifest.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				PrintWriter pw = null;
 				
 				try 
@@ -318,48 +320,54 @@ public class GUI {
 					e1.printStackTrace();
 				}
 				
+				double cOrderQuantity = 0;		// Quantity of all cold items.
+				Stock manifest = new Stock();	// Items to be ordered.
+				Stock cItems = new Stock();		// Cold items.
+				Stock oItems = new Stock();		// Ordinary non-cold items.
 				
 				
-				Manifest manifest = new Manifest();							
-				Stock items = new Stock();
-				Stock oItems = new Stock();
-				Stock tCargo = new Stock();
-				int cOrderQuantity = 0;
-				
-				
-				// Iterate through all store inventory items.
+				// Check all items in store inventory.
+				// Add under-stocked items to order.
 				Stock g = supermarket.getInventory();
 				for(Item i : g.getStock())
 				{
-					// Check if order more of item.
-					if(i.getQuantity() <= i.getReorderPoint())
-					{
+					if((int)i.getQuantity() <= (int)i.getReorderPoint())
+					{					
 						Item I = i;
 						I.setQuantity(I.getReorderAmount());
-						if(I.getTemperature() != null) 
-						{
-							items.addItem(I);
-							cOrderQuantity += I.getQuantity();
-							
-						}
-						else
-						{
-							oItems.addItem(I);
-						}
-						
+						manifest.addItem(I);						
+					}
+				}
+				
+				// Check all items inside order.
+				// Get, sort and count all items.
+				for(Item i : manifest.getStock())
+				{
+					if(i.getTemperature() != null)
+					{					
+						cItems.addItem(i);
+						cOrderQuantity += i.getQuantity();
+					}
+					else 
+					{
+						oItems.addItem(i);					
 					}
 				}
 				
 				
+						
+				// Cold Trucks Needed.
+				int numColdTrucks = (int) Math.ceil(cOrderQuantity / 800.0);				
+				int curNumItems = 0, allNumItems = 0;
+				
+				double capacity = 800.0;
+				String truckType = ">Refrigerated";
+				String newline = System.getProperty("line.separator");
 				
 				
-				//System.out.println("Quantity: "+numColdTrucks);
 				
-			
-				int count = items.getLength() - 1;
+				int count = cItems.getLength() - 1;
 				boolean sFlag = true;
-				
-			
 				
 				// Sort cold cargo.
 				while(sFlag)
@@ -367,123 +375,101 @@ public class GUI {
 					sFlag = false;					
 					for(int i = 0; i < count; i++)
 					{								
-						if(items.getItem(i+1).getTemperature() < items.getItem(i).getTemperature())
+						if(cItems.getItem(i+1).getTemperature() < cItems.getItem(i).getTemperature())
 						{
-							Item c = items.getItem(i);
-							items.getStock().set(i, items.getItem(i+1));
-							items.getStock().set(i+1, c);							
+							Item c = cItems.getItem(i);
+							cItems.getStock().set(i, cItems.getItem(i+1));
+							cItems.getStock().set(i+1, c);							
 							sFlag = true;												
 						}
 					}				
 				}
 				
-			
-				// Add warm stock to end of cargo.
-				for(Item i : oItems.getStock()) {
-					//items.getStock().add(i);	
-					//System.out.println(i.getName()+" Quantity: "+i.getQuantity());
-				}
+				manifest = cItems;
+				
+				// CSV file builder.
+				StringBuilder sb = new StringBuilder();
 				
 				
-				
-				int numItems = 0;		
-				String truckType = ">Refrigerated";
-				double capacity = 800.0;	
-				
-				
-				for(int i = 0; i < items.getLength(); i++)
-				{				
-					// Set items to manipulate.
-					Item c = items.getItem(i);
-					Item d = items.getItem(i);
+				// Set heading, add stock.
+				sb.append(truckType);	
+				for(int j = 0; j < manifest.getLength(); j++)
+				{		
+					Item c = manifest.getItem(j);
+					
+					// Check if item quantity > max capacity.
+					if((curNumItems + c.getQuantity()) > capacity) 
+					{
 						
-					// If item type cannot fit in truck.
-					if(c.getQuantity() + numItems > capacity)
-					{	
-						d.setQuantity(d.getQuantity() - (int)(capacity - numItems));
-						c.setQuantity(c.getQuantity() - d.getQuantity());
-						if(((int) (capacity - numItems)) > 0) {
-							tCargo.addItem(d);
-							
+						// Fill item remaining space.
+						c.setQuantity(c.getQuantity() - (int)(capacity - curNumItems));
+												
+						// Print only if item fits.
+						if(capacity - curNumItems != 0) {							
+							sb.append(newline+c.getName() + ",");
+							sb.append(capacity - curNumItems);
 						}
-						
-						
-						System.out.println(c.getName()+" Quantity: "+c.getQuantity()+" Minus: "+d.getQuantity());
-						
-						
-						
-						manifest = addTruckToManifest(tCargo, manifest);	// Add cargo to manifest as truck.						
-						tCargo = new Stock();								// Empty temp cargo.
-						numItems = 0;
-						
-						for(int x = 0; x < Math.ceil(c.getQuantity() / capacity); x++)
-						{
-							// Check if cold cargo.
-							if(checkCold(tCargo) == false)	
-							{
-								capacity = 1000.0;
-								truckType = ">Ordinary";
+						allNumItems += (capacity - curNumItems);
+						curNumItems = 0;							
+													
+						// Calculate and loop by number of needed trucks.
+						for(int x = 0; x < Math.ceil(c.getQuantity() /  capacity); x++)
+						{							
+							// Set to ordinary trucks.
+							if(manifest == oItems && capacity != 1000 && allNumItems >= (800 * numColdTrucks)) 
+							{							
+								capacity = 1000.0;								
+								truckType = ">Ordinary";	
 							}
-						
 							
+							// Parse CSV data.								
+								
+							sb.append(newline+truckType);							
+							sb.append(newline+c.getName() + ",");								
+							
+							// Check if fits and parse.
 							if((int)c.getQuantity() > capacity)
 							{
-								d.setQuantity(c.getQuantity() - (int)capacity - numItems);
-								c.setQuantity((int)c.getQuantity() - d.getQuantity());								
-								tCargo.addItem(d);
-								
-								manifest = addTruckToManifest(tCargo, manifest);	// Add cargo to manifest as truck.
-								tCargo = new Stock();								// Empty temp cargo.
-								numItems = 0;								
+								c.setQuantity(c.getQuantity() - (int)(capacity - curNumItems));
+								sb.append((int)(capacity - curNumItems)+newline);	
+								allNumItems += (capacity - curNumItems);
+								curNumItems = 0;
 							}
 							else
-							{							
-								d.setQuantity(c.getQuantity());
-								tCargo.addItem(d);								
-								numItems += d.getQuantity();
+							{
+								sb.append((int)c.getQuantity());
+								allNumItems += c.getQuantity();
+								curNumItems += c.getQuantity();								
+								c.setQuantity(0);
 							}
 						}
 					}
 					else
-					{						
-						tCargo.addItem(d);
-						numItems += d.getQuantity();
+					{		
+						// Parse items that fit.						
+						sb.append(newline+c.getName() + ",");
+						sb.append((int)c.getQuantity());		
+						allNumItems += c.getQuantity();
+						curNumItems += c.getQuantity();
+						c.setQuantity(0);
 					}
-				}
-						
-						
 					
-				// CSV file builder.
-				StringBuilder sb = new StringBuilder();
+					// Set ordinary truck cargo to add to manifest.
+					if(j >= manifest.getLength() - 1 && manifest == cItems) {															
+						manifest = oItems;
+						j = 0;
+					}
+				}	
 				
-				String newline = System.getProperty("line.separator");
-				OrdinaryTruck x = new OrdinaryTruck(tCargo);
-				// Debug manifest.
-				for(Truck t : manifest.getManifest())
-				{
-					if(t.getClass() == x.getClass()) {
-					//	truckType = ">Ordinary";
-					}
-					// Parse truck type.
-					sb.append(truckType);	
-					
-					// Parse truck cargo.
-					for(int j = 0; j < t.getCargo().getStock().size(); j++)
-					{
-						Item r = t.getCargo().getItem(j);
-						sb.append(newline+r.getName()+","+r.getQuantity());					
-					}			
-					sb.append(newline);
-				}
 				
 				pw.write(sb.toString());
 				pw.close();
-				System.out.println(sb);
+				
 				// Display message.
 				JOptionPane.showMessageDialog(exportManifest, "Truck Manifest Exported");
-			
-			//csvChooserFrame.dispose();
 			}
+				
+				
 		});
 		
 		
@@ -570,33 +556,6 @@ public class GUI {
 		
 	}
 	
-	 // Export manifest function/
-	static boolean checkCold(Stock cargo)		
-	{
-		boolean Cold = false;
-		for(Item j : cargo.getStock())
-		{
-			if(j.getTemperature() != null)
-			{
-				Cold = true;
-			}
-		}		
-		return Cold;
-	}
-	
-	static Manifest addTruckToManifest(Stock cargo, Manifest manifest)
-	{
-		if(checkCold(cargo))
-		{
-			RefrigeratedTruck rt = new RefrigeratedTruck(cargo);
-			manifest.addTruck(rt);			
-		}
-		else
-		{
-			OrdinaryTruck ot = new OrdinaryTruck(cargo);
-			manifest.addTruck(ot);			
-		}
-		return manifest;
-	}
+
 
 }
