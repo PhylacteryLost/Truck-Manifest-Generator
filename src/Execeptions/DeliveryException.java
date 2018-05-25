@@ -1,5 +1,8 @@
 package Execeptions;
 
-public class DeliveryException {
-
+public class DeliveryException extends Exception {
+	public DeliveryException(String message)
+	{
+		super(message);
+	}
 }

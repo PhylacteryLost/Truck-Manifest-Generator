@@ -17,6 +17,7 @@ import javax.swing.table.*;
 import Delivery.OrdinaryTruck;
 import Delivery.RefrigeratedTruck;
 import Delivery.Truck;
+import Execeptions.CSVFormatException;
 import Stock.Stock;
 import Stock.Store;
 import Stock.Item;
@@ -113,38 +114,65 @@ public class GUI {
 						}
 
 						for (int stringcount = 0; stringcount < readValues.size(); stringcount++) {
-							if (readValues.get(stringcount).length == 5) {
+							try
+							{
+								if (readValues.get(stringcount).length == 5) {
 
-							Item foodItem = new Item(readValues.get(stringcount)[0],Double.parseDouble(readValues.get(stringcount)[1]),Double.parseDouble(readValues.get(stringcount)[2])
-									,Integer.parseInt(readValues.get(stringcount)[3]),Integer.parseInt(readValues.get(stringcount)[4]));
+									Item foodItem = new Item(readValues.get(stringcount)[0],Double.parseDouble(readValues.get(stringcount)[1]),Double.parseDouble(readValues.get(stringcount)[2])
+											,Integer.parseInt(readValues.get(stringcount)[3]),Integer.parseInt(readValues.get(stringcount)[4]));
 
 
 
-							Object[] tempData = { foodItem.getName(), foodItem.getQuantity(), foodItem.getManufacturePrice(),
-									foodItem.getSellPrice(), foodItem.getReorderPoint(), foodItem.getReorderAmount(), null };
-							tableData.addRow(tempData);
+									Object[] tempData = { foodItem.getName(), foodItem.getQuantity(), foodItem.getManufacturePrice(),
+											foodItem.getSellPrice(), foodItem.getReorderPoint(), foodItem.getReorderAmount(), null };
+									tableData.addRow(tempData);
 
-							// ---- TEMP STORE STUFF ----
-							storeInventory.addItem(foodItem);
+									// ---- TEMP STORE STUFF ----
+									storeInventory.addItem(foodItem);
+									}
+
+									if (readValues.get(stringcount).length == 6){
+
+										Item foodItem = new Item(readValues.get(stringcount)[0],Double.parseDouble(readValues.get(stringcount)[1]),Double.parseDouble(readValues.get(stringcount)[2])
+												,Integer.parseInt(readValues.get(stringcount)[3]),Integer.parseInt(readValues.get(stringcount)[4]),
+												Double.parseDouble(readValues.get(stringcount)[5]));
+
+									Object[] tempData = { foodItem.getName(), foodItem.getQuantity(), foodItem.getManufacturePrice(),
+											foodItem.getSellPrice(), foodItem.getReorderPoint(), foodItem.getReorderAmount() , foodItem.getTemperature() };
+									tableData.addRow(tempData);
+
+									// ---- TEMP STORE STUFF ----
+									storeInventory.addItem(foodItem);
+									}
 							}
-
-							if (readValues.get(stringcount).length == 6){
-
-								Item foodItem = new Item(readValues.get(stringcount)[0],Double.parseDouble(readValues.get(stringcount)[1]),Double.parseDouble(readValues.get(stringcount)[2])
-										,Integer.parseInt(readValues.get(stringcount)[3]),Integer.parseInt(readValues.get(stringcount)[4]),
-										Double.parseDouble(readValues.get(stringcount)[5]));
-
-							Object[] tempData = { foodItem.getName(), foodItem.getQuantity(), foodItem.getManufacturePrice(),
-									foodItem.getSellPrice(), foodItem.getReorderPoint(), foodItem.getReorderAmount() , foodItem.getTemperature() };
-							tableData.addRow(tempData);
-
-							// ---- TEMP STORE STUFF ----
-							storeInventory.addItem(foodItem);
+							catch(Exception e1)
+							{
+								try {
+									throw new CSVFormatException("CSV Format Error - check manifest format - field values");
+								} catch (CSVFormatException e2) {									
+									e2.printStackTrace();
+								}
+							}
+							
+							
+							
+							
+							
+							if(readValues.get(stringcount).length > 6 || readValues.get(stringcount).length < 5)
+							{								
+								try 
+								{
+									throw new CSVFormatException("CSV Format Error - check manifest format - number of fields");
+								} 
+								catch (CSVFormatException e1) 
+								{									
+									e1.printStackTrace();
+								}
 							}
 						}
 
 
-
+						
 
 						// Finally Configure The Table //
 						inventoryTable.disable();
@@ -199,8 +227,12 @@ public class GUI {
 						try {
 							manifestContent = CSVReader.readCSV(csvChooser.getSelectedFile());
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							try {
+								throw new CSVFormatException("CSV Format Error - not CSV file");
+							} catch (CSVFormatException e2) {
+								// TODO Auto-generated catch block
+								e2.printStackTrace();
+							}
 						}
 
 						for (int manifestCount = 0; manifestCount < manifestContent.size();  manifestCount++) {
