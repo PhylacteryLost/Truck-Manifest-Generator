@@ -9,13 +9,15 @@ import Stock.Stock;
 
 public class Stock_Test 
 {
-	Stock inventory = new Stock();
-	
+	Stock inventory = new Stock();	
 	Item item_1, item_2;
 	Item item_3;
 	
 	
-
+	/*
+	 * Construct items and add them to inventory.
+	 * @author Clinton Hodge.
+	 */
 	@Before
 	public void TestAddItemsToInventory()
 	{		
@@ -30,6 +32,10 @@ public class Stock_Test
 		inventory.addItem(item_3);		
 	}
 	
+	/*
+	 * Test add items to stock.
+	 * @author Clinton Hodge.
+	 */
 	@Test
 	public void TestAddItems()
 	{
@@ -39,10 +45,13 @@ public class Stock_Test
 			Item item = new Item(("item"+i), 1, 3, 100, 170);
 			tStock.addItem(item);
 		}
-		
-		assertEquals(true, true);
+		assertEquals(500, tStock.getStock().size());
 	}
 	
+	/*
+	 * Test get inventory item list.
+	 * @author Clinton Hodge.
+	 */
 	@Test	
 	public void TestGetInventoryList() throws Exception
 	{		
@@ -56,13 +65,23 @@ public class Stock_Test
 		assertEquals(inventory.getStock(), stock.getStock());
 	}
 	
+	/*
+	 * Test return get item quantity.
+	 * @author Clinton Hodge.
+	 */
 	@Test	
 	public void TestGetItemQuantity()
 	{
 		// Test for number of items in inventory.
-		assertEquals(100, (int)item_1.getQuantity());
+		assertEquals(0, item_1.getQuantity());
+		item_1.setQuantity(50);
+		assertEquals(50, item_1.getQuantity());
 	}
 	
+	/*
+	 * Test return get length.
+	 * @author Clinton Hodge.
+	 */
 	@Test
 	public void TestGetLength()
 	{
@@ -76,6 +95,10 @@ public class Stock_Test
 		assertEquals(200, stock.getLength());
 	}
 	
+	/*
+	 * Test return get item.
+	 * @author Clinton Hodge.
+	 */
 	@Test
 	public void TestGetItem()
 	{

@@ -15,8 +15,7 @@ public class OrdinaryTruck extends Truck {
 	 *  constructs ordinary truck object.
 	 *    
 	 * @param default truck cargo.
-	 * @author Clinton Hodge
-	 * 
+	 * @author Clinton Hodge.
 	 */
 	public OrdinaryTruck(Stock cargo)
 	{
@@ -39,8 +38,7 @@ public class OrdinaryTruck extends Truck {
 	 *  updates/ replaces the truck's cargo. 
 	 *    
 	 * @param new truck cargo.
-	 * @author Clinton Hodge
-	 * 
+	 * @author Clinton Hodge.
 	 */
 	public void UpdateCargo(Stock cargo)
 	{
@@ -52,8 +50,7 @@ public class OrdinaryTruck extends Truck {
 	/*
 	 * return cost of truck hire to transport cargo.
 	 *    
-	 * @author Clinton Hodge
-	 * 
+	 * @author Clinton Hodge.
 	 */
 	@Override
 	public double getCost()
@@ -72,8 +69,7 @@ public class OrdinaryTruck extends Truck {
 	/*
 	 * returns maximum item capacity of ordinary truck.
 	 *    
-	 * @author Clinton Hodge
-	 * 
+	 * @author Clinton Hodge.
 	 */
 	@Override
 	public int getCapacity()
@@ -85,8 +81,7 @@ public class OrdinaryTruck extends Truck {
 	/*
 	 * returns num items in inventory.
 	 *    
-	 * @author Clinton Hodge
-	 * 
+	 * @author Clinton Hodge.
 	 */
 	public int getCargoSize() {
 		int numItems = 0;

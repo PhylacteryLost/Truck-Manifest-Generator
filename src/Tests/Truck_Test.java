@@ -12,6 +12,10 @@ public class Truck_Test {
 	Stock cargo = new Stock();
 	Truck truck = new OrdinaryTruck(cargo);
 	
+	/*
+	 * Test get truck cargo.
+	 * @author Clinton Hodge.
+	 */
 	@Test
 	public void TestGetCargo()
 	{

@@ -21,8 +21,7 @@ public class RefrigeratedTruck extends Truck {
 	 * constructs refrigerated truck object.
 	 *    
 	 * @param default cargo.
-	 * @author Clinton Hodge
-	 * 
+	 * @author Clinton Hodge.
 	 */
 	public RefrigeratedTruck(Stock cargo) 
 	{
@@ -48,8 +47,7 @@ public class RefrigeratedTruck extends Truck {
 	/*
 	 * calculate and set truck temperature.
 	 *    
-	 * @author Clinton Hodge
-	 * 
+	 * @author Clinton Hodge.
 	 */
 	public void setTemperature()
 	{		
@@ -64,7 +62,12 @@ public class RefrigeratedTruck extends Truck {
 		}
 	}	
 	
-	
+	/*
+	 * update cold truck cargo.
+	 * 
+	 * @param new truck cargo.
+	 * @author Clinton Hodge. 
+	 */
 	public void UpdateCargo(Stock cargo)
 	{
 		int numItems = 0;
@@ -81,8 +84,7 @@ public class RefrigeratedTruck extends Truck {
 	/*
 	 * return temperature of truck.
 	 *    
-	 * @author Clinton Hodge
-	 * 
+	 * @author Clinton Hodge.
 	 */	
 	public double getTemperature()
 	{
@@ -94,8 +96,7 @@ public class RefrigeratedTruck extends Truck {
 	/*
 	 * return cost of hiring cold truck.
 	 *    
-	 * @author Clinton Hodge
-	 * 
+	 * @author Clinton Hodge.
 	 */
 	@Override
     public double getCost()
@@ -113,8 +114,7 @@ public class RefrigeratedTruck extends Truck {
 	/*
 	 * returns maximum truck item capacity.
 	 *    
-	 * @author Clinton Hodge
-	 * 
+	 * @author Clinton Hodge.
 	 */
 	@Override
 	public int getCapacity()
@@ -126,7 +126,7 @@ public class RefrigeratedTruck extends Truck {
 	/*
 	 * returns quantity of cargo in truck.
 	 *    
-	 * @author Clinton Hodge
+	 * @author Clinton Hodge.
 	 */
 	public int getCargoSize() {
 		int numItems = 0;
