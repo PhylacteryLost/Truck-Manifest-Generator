@@ -1,3 +1,6 @@
+# What it Does
+Inventory Management Software for Supermarkets. Tracks item sales, calculates transport costs, re-stocking and its effects on capital.  Also handles tracking of items with custom properties, the exporting of manifests based on current inventory, importing of manifests of newly stocked items, importing sales logs. In addition to optimizing manifests for capital expenditure by minimizing the quantity of low temperature trucks through an optimal logistical allocation of items.
+
 # Features
 
  - View store capital in dollars and cents (e.g. $100,000.00). 
@@ -28,4 +31,3 @@
 >**SAMPLE FILES TO TEST SOFTWARE**
 
 >**UNIT TESTING**
-
