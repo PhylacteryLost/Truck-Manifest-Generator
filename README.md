@@ -1,5 +1,5 @@
 # What it Does
-***Written in Java***. Tracks item sales, calculates transport costs, re-stocking and its effects on capital.  Also handles tracking of items with custom properties, the exporting of manifests based on current inventory, importing of manifests of newly stocked items, importing sales logs. In addition to optimizing manifests for capital expenditure by minimizing the quantity of low temperature trucks through an optimal logistical allocation of items.
+Tracks item sales, calculates transport costs, re-stocking and its effects on capital.  Also handles the tracking of items with custom properties via the exporting of manifests based on current inventory, importing of manifests of newly stocked items, importing sales logs. In addition to optimizing manifests for capital expenditure by minimizing the quantity of low temperature trucks through an optimal logistical allocation of items.
 
 # Features
 
